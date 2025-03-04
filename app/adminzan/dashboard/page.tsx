@@ -14,9 +14,61 @@ import {
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
+type Order = {
+  id: string;
+  userId?: string;
+  customerName: string;
+  whatsappNumber: string;
+  paymentMethod: string;
+  projectType: string;
+  platform: string;
+  projectName: string;
+  applicationType: string;
+  referenceLink?: string;
+
+  // Development Info
+  developmentMethod?: 'fullstack' | 'mixmatch';
+  fullstackChoice?: {
+    framework: string;
+    database: string;
+  };
+  mixmatchChoice?: {
+    frontend: string;
+    backend: string;
+    api: string;
+    database: string;
+  };
+  roles?: string[];
+  uiFramework?: string[];
+  flutterUIFrameworks?: string[];
+  themeChoice?: {
+    mode: string;
+  };
+  notificationType?: string;
+  customColors?: {
+    colors: string[];
+  };
+
+  // Additional Info
+  deadline?: string;
+  notes?: string;
+
+  // Price Info
+  originalPrice?: number;
+  finalPrice?: number;
+  discount?: number;
+
+  // Metadata
+  status?: string;
+  createdAt?: {
+    seconds: number;
+    nanoseconds: number;
+  };
+};
+
 export default function AdminDashboard() {
   const router = useRouter();
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]); // ✅ Perbaiki tipe `useState`
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [filterStatus, setFilterStatus] = useState("Semua");
@@ -27,7 +79,7 @@ export default function AdminDashboard() {
       if (user) {
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
-
+  
         if (userSnap.exists() && userSnap.data().role === "admin") {
           setIsAdmin(true);
           fetchOrders();
@@ -38,22 +90,28 @@ export default function AdminDashboard() {
         router.push("/adminzan");
       }
     };
-
+  
     checkAdmin();
-  }, []);
+  }, [router]); // ✅ Tambahkan router ke dependency array
+  
 
   const fetchOrders = async () => {
     setLoading(true);
     const ordersRef = collection(db, "orders");
     const querySnapshot = await getDocs(ordersRef);
-    const ordersList = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
+  
+    const ordersList: Order[] = querySnapshot.docs.map((doc) => {
+      const data = doc.data() as Order;
+      return {
+        ...data,
+        id: doc.id,
+      };
+    });
+  
     setOrders(ordersList);
     setLoading(false);
   };
+  
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -311,9 +369,9 @@ export default function AdminDashboard() {
                     <p className="text-gray-400">
                       🔔 Notifikasi: {order.notificationType || "Default"}
                     </p>
-                    {order.customColors?.colors?.length > 0 && (
+                    {(order.customColors?.colors?.length ?? 0) > 0 && (
                       <p className="text-gray-400">
-                        🎨 Custom Colors: {order.customColors.colors.join(", ")}
+                        🎨 Custom Colors: {order.customColors?.colors?.join(", ") || "Default"}
                       </p>
                     )}
                   </div>
@@ -324,7 +382,7 @@ export default function AdminDashboard() {
                     <p className="text-gray-400">
                       💰 Harga Asli: Rp {order.originalPrice?.toLocaleString() || "0"}
                     </p>
-                    {order.discount > 0 && (
+                    {(order.discount ?? 0) > 0 && (
                       <p className="text-green-500">🎉 Diskon: {order.discount}%</p>
                     )}
                     <p className="text-white font-bold">
@@ -343,7 +401,7 @@ export default function AdminDashboard() {
                     </p>
                     <p className="text-gray-400">
                       📅 Dibuat:{" "}
-                      {new Date(order.createdAt?.seconds * 1000).toLocaleString()}
+                      {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString() : "N/A"}
                     </p>
                   </div>
 

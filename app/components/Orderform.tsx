@@ -8,17 +8,14 @@ import { OrderData } from "../../lib/types/order";
 import { calculateOrderPrice } from "../../lib/utils/priceCalculator";
 import Step1 from "./OrderSteps/Step1";
 import Step2 from "./OrderSteps/Step2";
-// import Step3A from "./OrderSteps/Step3A";
 import Step3B from "./OrderSteps/Step3B";
-// import Step3C from "./OrderSteps/Step3C";
 import Step4 from "./OrderSteps/Step4";
-import OrderSummary from "./OrderSteps/OrderSummary";
 import { motion, AnimatePresence } from "framer-motion";
 
 const OrderForm = () => {
   const { user } = useAuth();
   const [step, setStep] = useState(1);
-  const [hasUsedDiscount, setHasUsedDiscount] = useState(false);
+  const [, setHasUsedDiscount] = useState(false);
   const [orderData, setOrderData] = useState<OrderData>({
     projectType: "",
     projectName: "",

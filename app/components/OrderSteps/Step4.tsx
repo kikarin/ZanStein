@@ -16,7 +16,7 @@ interface Step4Props {
   prevStep: () => void;
 }
 
-const Step4 = ({ orderData, updateOrderData, prevStep }: Step4Props) => {
+const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
   const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -37,9 +37,10 @@ const Step4 = ({ orderData, updateOrderData, prevStep }: Step4Props) => {
         console.error("Error checking discount:", error);
       }
     };
-
+  
     checkDiscountUsage();
-  }, [user]);
+  }, [user, updateOrderData]);
+  
 
   useEffect(() => {
     if (user) {
@@ -48,7 +49,8 @@ const Step4 = ({ orderData, updateOrderData, prevStep }: Step4Props) => {
         isNameLocked: true
       });
     }
-  }, [user]);
+  }, [user, updateOrderData]);
+  
 
   const calculateTotal = () => {
     let total = 0;
@@ -167,7 +169,8 @@ const Step4 = ({ orderData, updateOrderData, prevStep }: Step4Props) => {
       };
 
       const docRef = await addDoc(collection(db, "orders"), orderDataToSave);
-
+      console.log("Order ID:", docRef.id);
+      
       if (user && orderData.discount) {
         await updateDoc(doc(db, "users", user.uid), {
           hasUsedDiscount: true
@@ -229,7 +232,7 @@ Platform: ${order.platform}
 Aplikasi: ${order.projectName}
 
 Deadline: ${order.deadline}
-Total: Rp ${order.totalPrice?.toLocaleString()}
+Total: Rp ${finalPrice.toLocaleString()}
 ${order.notes ? `\nCatatan: ${order.notes}` : ''}
     `.trim();
   };
@@ -269,7 +272,7 @@ ${order.notes ? `\nCatatan: ${order.notes}` : ''}
           <label className="block text-gray-800 mb-2">Metode Pembayaran</label>
           <select
             value={orderData.paymentMethod}
-            onChange={(e) => updateOrderData({ paymentMethod: e.target.value as any })}
+            onChange={(e) => updateOrderData({ paymentMethod: e.target.value as "DANA" | "OVO" | "GOPAY" })}
             className="w-full p-2 bg-gray-100 border border-gray-600 rounded-lg text-gray-800"
             required
           >

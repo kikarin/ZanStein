@@ -4,6 +4,8 @@ import { useState } from "react";
 import { OrderData } from "../../../lib/types/order";
 import { PRICE_LIST } from "../../../lib/utils/priceCalculator";
 import { ChromePicker } from "react-color";
+import { ColorResult } from "react-color";
+
 
 interface Step3BProps {
   orderData: OrderData;
@@ -15,8 +17,6 @@ interface Step3BProps {
 const Step3B = ({
   orderData,
   updateOrderData,
-  nextStep,
-  prevStep,
 }: Step3BProps) => {
   const [developmentMethod, setDevelopmentMethod] = useState<
     "fullstack" | "mixmatch"
@@ -65,7 +65,7 @@ const Step3B = ({
     });
   };
 
-  const handleColorChange = (color: any) => {
+  const handleColorChange = (color: ColorResult) => {
     setCurrentColor(color.hex);
     const currentColors = orderData.customColors?.colors || [];
     if (currentColors.length < (orderData.customColors?.count || 0)) {

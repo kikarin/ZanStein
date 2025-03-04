@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { OrderData } from "../../../lib/types/order";
 import { motion } from "framer-motion";
-import { FiMonitor, FiSmartphone, FiGlobe, FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { FiMonitor, FiSmartphone, FiGlobe,  } from "react-icons/fi";
 
 interface Step2Props {
   orderData: OrderData;
@@ -28,14 +28,10 @@ const applicationTypes = [
   { id: "Rekomendasi", label: "Minta Rekomendasi" },
 ];
 
-const Step2 = ({ orderData, updateOrderData, nextStep, prevStep }: Step2Props) => {
+const Step2 = ({ orderData, updateOrderData, }: Step2Props) => {
   const [customAppType, setCustomAppType] = useState(orderData.customApplicationType || "");
 
-  const canProceed = () => {
-    if (!orderData.platform || !orderData.projectName || !orderData.applicationType) return false;
-    if (orderData.applicationType === "Custom" && !customAppType) return false;
-    return true;
-  };
+
 
   return (
     <motion.div

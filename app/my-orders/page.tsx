@@ -14,17 +14,30 @@ import {
   UserIcon,
   CreditCardIcon,
   GlobeAltIcon,
-  WrenchScrewdriverIcon,
   CodeBracketSquareIcon,
-  PaintBrushIcon,
   BellIcon,
 } from "@heroicons/react/24/outline";
 import Swal from "sweetalert2";
 
+interface Order {
+  id: string;
+  projectName: string;
+  customerName: string;
+  whatsappNumber: string;
+  paymentMethod: string;
+  platform: string;
+  developmentMethod: string;
+  fullstackChoice: { database: string };
+  mixmatchChoice: { database: string };
+  finalPrice: number;
+  discount: number;
+  status: string;
+  createdAt: { seconds: number };
+}
 export default function MyOrders() {
   const { user } = useAuth();
   const router = useRouter();
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,7 +45,7 @@ export default function MyOrders() {
       router.push("/login");
       return;
     }
-
+  
     const fetchMyOrders = async () => {
       try {
         const q = query(collection(db, "orders"), where("userId", "==", user.uid));
@@ -40,8 +53,8 @@ export default function MyOrders() {
         const ordersList = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        }));
-
+        })) as Order[];
+  
         setOrders(ordersList);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -49,10 +62,10 @@ export default function MyOrders() {
         setLoading(false);
       }
     };
-
+  
     fetchMyOrders();
-  }, [user]);
-
+  }, [user, router]); // ✅ Tambahkan router
+  
   const handleCancelOrder = async (orderId: string) => {
     const confirm = await Swal.fire({
       title: "Konfirmasi Pembatalan",

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 
 export default function Loader({ setIsLoading }: { setIsLoading: (value: boolean) => void }) {
   useEffect(() => {
@@ -32,11 +33,13 @@ export default function Loader({ setIsLoading }: { setIsLoading: (value: boolean
   return (
     <div className="loader-container fixed inset-0 z-50 flex flex-col items-center justify-center">
       {/* Logo */}
-      <div className="loader-logo w-52 h-52">
-        <img
+      <div className="loader-logo w-52 h-52 relative">
+        <Image
           src="/logo-ts.png"
           alt="ZanStein Logo"
-          className="w-full h-full object-contain"
+          fill
+          className="object-contain"
+          priority
         />
       </div>
 

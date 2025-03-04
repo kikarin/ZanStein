@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface OrderData {
   // User Info
   userId?: string;
@@ -46,8 +48,8 @@ export interface OrderData {
 
   // Metadata
   status?: string;
-  createdAt?: any;
-  lastUpdated?: any;
+  createdAt?: Timestamp;
+  lastUpdated?: Timestamp;
 }
 
 export interface PriceList {
@@ -82,4 +84,4 @@ export interface PriceList {
     [key: string]: number;
   };
   uiThemes: { [key: string]: number };
-} ``
+}

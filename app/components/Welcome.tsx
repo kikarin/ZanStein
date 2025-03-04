@@ -1,10 +1,10 @@
 "use client";
 
-import { motion,useAnimation  } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { ShieldCheckIcon, RocketLaunchIcon, LightBulbIcon,BriefcaseIcon, FaceSmileIcon, LifebuoyIcon } from "@heroicons/react/24/solid";
+import { ShieldCheckIcon, RocketLaunchIcon, LightBulbIcon } from "@heroicons/react/24/solid";
 
 const Welcome = () => {
   const router = useRouter();
@@ -153,37 +153,25 @@ const StatsSection = () => {
 
 /* 🔹 Komponen Counter menggunakan framer-motion untuk animasi lebih smooth */
 const Counter = ({ value, suffix }: { value: number; suffix: string }) => {
-  const controls = useAnimation();
-
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const controls = { count: 0 };
-    const animation = { count: value };
+    const startTime = performance.now();
     const duration = 2;
-    const ease = "easeOut";
 
-    const animateCount = () => {
-      const start = controls.count;
-      const end = animation.count;
-      const startTime = performance.now();
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / (duration * 1000), 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const currentCount = Math.round(easedProgress * value);
+      setCount(currentCount);
 
-      const tick = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / (duration * 1000), 1);
-        const easedProgress = ease === "easeOut" ? 1 - Math.pow(1 - progress, 3) : progress;
-        const currentCount = Math.round(start + (end - start) * easedProgress);
-        setCount(currentCount);
-
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        }
-      };
-
-      requestAnimationFrame(tick);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      }
     };
 
-    animateCount();
+    requestAnimationFrame(tick);
   }, [value]);
 
   return (

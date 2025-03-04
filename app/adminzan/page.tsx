@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 export default function AdminAuth() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -16,21 +16,22 @@ export default function AdminAuth() {
       if (user) {
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
-
+  
         if (userSnap.exists() && userSnap.data().role === "admin") {
           setIsAdmin(true);
-          router.push("/adminzan/dashboard"); // Jika admin, masuk dashboard
+          router.push("/adminzan/dashboard");
         } else {
-          router.push("/"); // Jika bukan admin, redirect ke home
+          router.push("/");
         }
       } else {
-        router.push("/"); // Jika tidak login, redirect ke home
+        router.push("/");
       }
       setLoading(false);
     };
-
+  
     checkAdmin();
-  }, []);
+  }, [router]); // ✅ Tambahkan router sebagai dependency
+  
 
   if (loading) return <p className="text-center text-gray-400">Memeriksa akses admin...</p>;
   return null;

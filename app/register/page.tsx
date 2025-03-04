@@ -8,6 +8,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { FirebaseError } from "firebase/app";
+
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -74,16 +76,19 @@ export default function RegisterPage() {
       });
 
       router.push("/");
-    } catch (error: any) {
-      console.error("Registration error:", error);
-      if (error.code === "auth/email-already-in-use") {
-        setError("Email sudah terdaftar.");
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        console.error("Registration error:", error);
+        if (error.code === "auth/email-already-in-use") {
+          setError("Email sudah terdaftar.");
+        } else {
+          setError("Terjadi kesalahan saat registrasi.");
+        }
       } else {
-        setError("Terjadi kesalahan saat registrasi.");
+        console.error("Unexpected error:", error);
+        setError("Terjadi kesalahan yang tidak diketahui.");
       }
-    } finally {
-      setLoading(false);
-    }
+    }    
   };
 
   return (

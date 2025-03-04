@@ -47,21 +47,28 @@ export default function LoginPage() {
   const loginWithEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+  
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       await checkUserRole(result.user.uid);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login gagal:", error);
-      if (error.code === "auth/invalid-credential") {
-        setError("Email atau password salah. Silakan coba lagi.");
-      } else if (error.code === "auth/user-not-found") {
-        setError("Akun tidak ditemukan. Silakan daftar terlebih dahulu.");
+      
+      if (error instanceof Error && "code" in error) {
+        const err = error as { code: string };
+        if (err.code === "auth/invalid-credential") {
+          setError("Email atau password salah. Silakan coba lagi.");
+        } else if (err.code === "auth/user-not-found") {
+          setError("Akun tidak ditemukan. Silakan daftar terlebih dahulu.");
+        } else {
+          setError("Terjadi kesalahan. Silakan coba lagi.");
+        }
       } else {
-        setError("Terjadi kesalahan. Silakan coba lagi.");
+        setError("Terjadi kesalahan yang tidak terduga.");
       }
     }
   };
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">

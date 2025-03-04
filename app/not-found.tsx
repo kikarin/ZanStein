@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 
 export default function NotFound() {
   useEffect(() => {
@@ -17,12 +18,12 @@ export default function NotFound() {
     gsap.fromTo(
       ".decorative-circle",
       { scale: 0, opacity: 0 },
-      { 
-        scale: 1, 
-        opacity: 0.1, 
-        duration: 1, 
+      {
+        scale: 1,
+        opacity: 0.1,
+        duration: 1,
         ease: "elastic.out(1, 0.3)",
-        stagger: 0.2 
+        stagger: 0.2,
       }
     );
   }, []);
@@ -39,10 +40,12 @@ export default function NotFound() {
       {/* Content */}
       <div className="not-found-content relative z-10 text-center max-w-2xl mx-auto">
         {/* Logo */}
-        <div className="w-24 h-24 mx-auto mb-8">
-          <img
+        <div className="w-24 h-24 mx-auto">
+          <Image
             src="/zans-t.png"
             alt="ZanStein Logo"
+            width={96} // 24 * 4 (Tailwind rem unit)
+            height={96}
             className="w-full h-full object-contain"
           />
         </div>
@@ -53,25 +56,31 @@ export default function NotFound() {
           Page Not Found
         </h2>
         <p className="text-gray-400 mb-8 max-w-md mx-auto">
-          Oops! The page you're looking for doesn't exist. It might have been moved or deleted.
-        </p>
+  Oops! The page you&rsquo;re looking for doesn&rsquo;t exist. It might have been moved or deleted.
+</p>
+
 
         {/* Back to Home Button */}
-        <Link 
+        <Link
           href="/"
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl transition-all duration-300 group"
         >
           <span>Back to Home</span>
-          <svg 
-            className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
           </svg>
         </Link>
       </div>
     </div>
   );
-} 
+}

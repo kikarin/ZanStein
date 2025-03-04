@@ -8,8 +8,8 @@ import { doc, getDoc } from "firebase/firestore";
 
 export default function OrderPage() {
   const { user } = useAuth();
-  const [hasDiscount, setHasDiscount] = useState(false);
-  const [hasUsedDiscount, setHasUsedDiscount] = useState(false);
+  const [, setHasDiscount] = useState(false);
+  const [, setHasUsedDiscount] = useState(false);
 
   useEffect(() => {
     const checkDiscountStatus = async () => {

@@ -131,7 +131,7 @@ const Testimonials = () => {
     const probabilities = [10, 10, 25, 25, 10, 10, 5, 2.5, 2, 0.5];
     const discountValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    let random = Math.random() * 100;
+    const random = Math.random() * 100;
     let cumulativeProbability = 0;
 
     for (let i = 0; i < probabilities.length; i++) {
