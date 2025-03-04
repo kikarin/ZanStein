@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-Bold.woff2') format('woff2'),
+       url('/fonts/SpaceGrotesk-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+}
+
+:root {
+  background-image: radial-gradient( circle farthest-corner at 48.3% 48.1%,  rgba(221,221,221,1) 0%, rgba(187,251,252,0.34) 100.2% );  --text-primary: #2D3748;
+  --text-secondary: #4A5568;
+  --accent-color: #33BADE;
+  --accent-hover: #3182CE;
+}
+
+body {
+  background-image: var(--primary-gradient);
+  color: var(--text-primary);
+  font-family: "Inter", "Space Grotesk", sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Modern Card Styles */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Modern Button Styles */
+.btn-primary {
+  @apply px-6 py-3 bg-blue-500 text-white rounded-lg transition-all duration-300 hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-1;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 bg-gray-100 text-gray-800 rounded-lg transition-all duration-300 hover:bg-gray-200 hover:shadow-lg transform hover:-translate-y-1;
+}
+
+/* Modern Input Styles */
+.input-modern {
+  @apply w-full px-4 py-3 bg-white bg-opacity-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300;
+}
+
+/* Responsive Typography */
+@layer base {
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+  }
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+  p {
+    @apply text-base md:text-lg leading-relaxed;
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Animation Classes */
+.hover-scale {
+  @apply transition-transform duration-300 hover:scale-105;
+}
+
+.fade-in {
+  @apply animate-[fadeIn_0.5s_ease-in-out];
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.2; transform: scale(1); }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s infinite alternate ease-in-out;
+}
+
+
+
+@keyframes spinGacha {
+  0% { content: "1%"; }
+  10% { content: "2%"; }
+  20% { content: "3%"; }
+  30% { content: "4%"; }
+  40% { content: "5%"; }
+  50% { content: "6%"; }
+  60% { content: "7%"; }
+  70% { content: "8%"; }
+  80% { content: "9%"; }
+  90% { content: "10%"; }
+  100% { content: attr(data-discount); } /* Munculin diskon asli di akhir */
+}
+
+.animate-spin-gacha::before {
+  display: inline-block;
+  content: "1%";
+  animation: spinGacha 2s ease-in-out forwards;
+}
