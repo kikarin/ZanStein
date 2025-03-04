@@ -5,13 +5,15 @@ export interface OrderData {
   userId?: string;
   customerName: string;
   whatsappNumber: string;
-  paymentMethod: string;
-
+  paymentMethod?: "DANA" | "OVO" | "GOPAY";
+  isNameLocked?: boolean;
   // Project Info
   projectType: string;
+  
   platform: string;
   projectName: string;
   applicationType: string;
+  customApplicationType?: string;
   referenceLink?: string;
 
   // Development Info
@@ -30,11 +32,15 @@ export interface OrderData {
   uiFramework?: string[];
   flutterUIFrameworks?: string[];
   themeChoice?: {
-    mode: string;
+    mode?: string;
+    style?: string;
   };
+
+  
   notificationType?: string;
   customColors?: {
     colors: string[];
+    count?: number;
   };
 
   // Additional Info
@@ -45,6 +51,8 @@ export interface OrderData {
   originalPrice?: number;
   finalPrice?: number;
   discount?: number;
+  totalPrice?: number;
+   voucherCode?: string;
 
   // Metadata
   status?: string;

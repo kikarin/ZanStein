@@ -9,6 +9,7 @@ import { OrderData } from "../../../lib/types/order";
 import { PRICE_LIST } from "../../../lib/utils/priceCalculator";
 import OrderSummary from "./OrderSummary";
 import Swal from "sweetalert2";
+import { Timestamp } from "firebase/firestore";
 
 interface Step4Props {
   orderData: OrderData;
@@ -136,7 +137,7 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
         userId: user?.uid || 'guest',
         customerName: orderData.customerName || '',
         whatsappNumber: orderData.whatsappNumber || '',
-        paymentMethod: orderData.paymentMethod || '',
+        paymentMethod: orderData.paymentMethod as "DANA" | "OVO" | "GOPAY" || undefined,
         projectType: orderData.projectType || '',
         platform: orderData.platform || '',
         projectName: orderData.projectName || '',
@@ -190,7 +191,11 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
         });
   
         if (confirm.isConfirmed) {
-          const waMessage = generateWhatsAppMessage(orderDataToSave);
+          const waMessage = generateWhatsAppMessage({
+            ...orderDataToSave,
+            createdAt: Timestamp.fromDate(new Date()),
+            lastUpdated: Timestamp.fromDate(new Date())
+          });
           window.open(
             `https://wa.me/6285693531495?text=${encodeURIComponent(waMessage)}`,
             "_blank"
@@ -223,8 +228,7 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
       setShowConfirmation(false);
     }
   };
-  const generateWhatsAppMessage = (order: OrderData) => {
-    return `
+  const generateWhatsAppMessage = (order: Omit<OrderData, 'createdAt' | 'lastUpdated'> & { createdAt: Timestamp; lastUpdated: Timestamp }) => {    return `
 *🛒 ORDER BARU*
 Nama: ${order.customerName}
 Project: ${order.projectType}

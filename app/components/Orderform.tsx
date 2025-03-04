@@ -23,7 +23,7 @@ const OrderForm = () => {
     applicationType: "",
     customerName: user?.displayName || "",
     whatsappNumber: "",
-    paymentMethod: ""
+    paymentMethod: undefined
   });
 
   useEffect(() => {

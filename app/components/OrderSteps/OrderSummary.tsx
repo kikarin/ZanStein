@@ -70,7 +70,7 @@ const OrderSummary = ({
       return;
     }
 
-    if (await checkVoucherUsage(orderData.voucherCode)) {
+    if (orderData.voucherCode && await checkVoucherUsage(orderData.voucherCode)) {
       Swal.fire(
         "Gagal!",
         "Voucher sudah digunakan dan tidak bisa digunakan lagi!",
@@ -210,3 +210,4 @@ try {
 };
 
 export default OrderSummary;
+

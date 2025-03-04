@@ -111,13 +111,14 @@ export default function MyOrders() {
   };
   
 
-  const getStatusBadge = (status: string) => {
-    const statusMap = {
-      Pending: "bg-yellow-500 text-white",
-      Diproses: "bg-blue-500 text-white",
-      Selesai: "bg-green-500 text-white",
-      Dibatalkan: "bg-red-500 text-white",
-    };
+  const statusMap = {
+    Pending: "bg-yellow-500 text-white",
+    Diproses: "bg-blue-500 text-white",
+    Selesai: "bg-green-500 text-white",
+    Dibatalkan: "bg-red-500 text-white",
+  };
+
+  const getStatusBadge = (status: keyof typeof statusMap) => {
     return statusMap[status] || "bg-gray-500 text-white";
   };
 
@@ -140,7 +141,7 @@ export default function MyOrders() {
               {/* Header */}
               <div className="flex justify-between items-center">
                 <h3 className="text-lg md:text-xl font-semibold text-primary">{order.projectName}</h3>
-                <span className={`px-3 py-1 text-sm font-medium rounded-md ${getStatusBadge(order.status)}`}>{order.status}</span>
+                <span className={`px-3 py-1 text-sm font-medium rounded-md ${getStatusBadge(order.status as "Dibatalkan" | "Pending" | "Diproses" | "Selesai")}`}>{order.status}</span>
               </div>
 
               {/* Info Grid */}

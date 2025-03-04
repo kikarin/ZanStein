@@ -79,7 +79,7 @@ export default function AdminDashboard() {
       if (user) {
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
-  
+
         if (userSnap.exists() && userSnap.data().role === "admin") {
           setIsAdmin(true);
           fetchOrders();
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
         router.push("/adminzan");
       }
     };
-  
+
     checkAdmin();
   }, [router]); // ✅ Tambahkan router ke dependency array
   
@@ -104,10 +104,10 @@ export default function AdminDashboard() {
       const data = doc.data() as Order;
       return {
         ...data,
-        id: doc.id,
+      id: doc.id,
       };
     });
-  
+
     setOrders(ordersList);
     setLoading(false);
   };
@@ -170,11 +170,11 @@ export default function AdminDashboard() {
             <div className="text-center md:text-left">
               <h2 className="text-3xl font-bold text-white mb-2">
                 Dashboard Admin
-              </h2>
+      </h2>
               <p className="text-gray-400">Manage orders and monitor system status</p>
             </div>
-            <button
-              onClick={handleLogout}
+      <button
+        onClick={handleLogout}
               className="px-6 py-2.5 bg-red-500/80 hover:bg-red-600 text-white rounded-xl transition-all duration-300 flex items-center gap-2 group"
             >
               <span>Logout</span>
@@ -186,7 +186,7 @@ export default function AdminDashboard() {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
-            </button>
+      </button>
           </div>
         </div>
 
@@ -202,18 +202,18 @@ export default function AdminDashboard() {
               </div>
               <h3 className="text-xl font-semibold text-white">Filter Orders</h3>
             </div>
-            <select
+        <select
               className="w-full px-4 py-3 rounded-xl bg-gray-800/50 text-white border border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-            >
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
               <option value="Semua">All Orders</option>
-              <option value="Pending">Pending</option>
+          <option value="Pending">Pending</option>
               <option value="Diproses">In Progress</option>
               <option value="Selesai">Completed</option>
               <option value="Dibatalkan">Cancelled</option>
-            </select>
-          </div>
+        </select>
+      </div>
 
           {/* Stats Card */}
           <div className="bg-black/30 p-6 rounded-2xl backdrop-blur-sm border border-gray-700">
@@ -242,11 +242,11 @@ export default function AdminDashboard() {
             <h3 className="text-xl font-semibold text-white">Order List</h3>
           </div>
 
-          {loading ? (
+      {loading ? (
             <div className="flex justify-center items-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
             </div>
-          ) : filteredOrders.length === 0 ? (
+      ) : filteredOrders.length === 0 ? (
             <div className="text-center py-12">
               <svg className="w-16 h-16 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -257,9 +257,9 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <div className="space-y-4">
-              {filteredOrders.map((order) => (
+          {filteredOrders.map((order) => (
                 <div
-                  key={order.id}
+              key={order.id}
                   className="p-6 border border-gray-700 rounded-xl hover:border-primary/50 transition-all duration-300 bg-gray-800/30"
                 >
                   {/* Order Header */}
@@ -284,150 +284,150 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Order Content - Keep existing content structure */}
-                  {/* Customer Info */}
-                  <div className="mb-4">
-                    <h4 className="text-lg font-bold text-primary">
-                      Informasi Pelanggan
-                    </h4>
-                    <p className="text-white">👤 Nama: {order.customerName || "N/A"}</p>
-                    <p className="text-gray-400">
-                      📱 WhatsApp: {order.whatsappNumber || "N/A"}
-                    </p>
-                    <p className="text-gray-400">
-                      💳 Pembayaran: {order.paymentMethod || "N/A"}
-                    </p>
-                  </div>
+              {/* Customer Info */}
+              <div className="mb-4">
+                <h4 className="text-lg font-bold text-primary">
+                  Informasi Pelanggan
+                </h4>
+                <p className="text-white">👤 Nama: {order.customerName || "N/A"}</p>
+                <p className="text-gray-400">
+                  📱 WhatsApp: {order.whatsappNumber || "N/A"}
+                </p>
+                <p className="text-gray-400">
+                  💳 Pembayaran: {order.paymentMethod || "N/A"}
+                </p>
+              </div>
 
-                  {/* Project Details */}
-                  <div className="mb-4">
-                    <h4 className="text-lg font-bold text-primary">
-                      Detail Proyek
-                    </h4>
-                    <p className="text-gray-400">📌 Tipe: {order.projectType || "N/A"}</p>
-                    <p className="text-gray-400">📝 Nama: {order.projectName || "N/A"}</p>
-                    <p className="text-gray-400">💻 Platform: {order.platform || "N/A"}</p>
-                    <p className="text-gray-400">
-                      🔧 Jenis: {order.applicationType || "N/A"}
-                    </p>
-                    <p className="text-gray-400">
-                      🔗 Referensi: {order.referenceLink || "Tidak ada"}
-                    </p>
-                  </div>
+              {/* Project Details */}
+              <div className="mb-4">
+                <h4 className="text-lg font-bold text-primary">
+                  Detail Proyek
+                </h4>
+                <p className="text-gray-400">📌 Tipe: {order.projectType || "N/A"}</p>
+                <p className="text-gray-400">📝 Nama: {order.projectName || "N/A"}</p>
+                <p className="text-gray-400">💻 Platform: {order.platform || "N/A"}</p>
+                <p className="text-gray-400">
+                  🔧 Jenis: {order.applicationType || "N/A"}
+                </p>
+                <p className="text-gray-400">
+                  🔗 Referensi: {order.referenceLink || "Tidak ada"}
+                </p>
+              </div>
 
-                  {/* Development Details */}
-                  <div className="mb-4">
-                    <h4 className="text-lg font-bold text-primary">
-                      Detail Pengembangan
-                    </h4>
-                    <p className="text-gray-400">
-                      ⚙️ Metode: {order.developmentMethod}
-                    </p>
+              {/* Development Details */}
+              <div className="mb-4">
+                <h4 className="text-lg font-bold text-primary">
+                  Detail Pengembangan
+                </h4>
+                <p className="text-gray-400">
+                  ⚙️ Metode: {order.developmentMethod}
+                </p>
 
-                    {order.developmentMethod === "fullstack" &&
-                      order.fullstackChoice && (
-                        <>
-                          <p className="text-gray-400">
-                            🛠️ Framework: {order.fullstackChoice.framework}
-                          </p>
-                          <p className="text-gray-400">
-                            📦 Database: {order.fullstackChoice.database}
-                          </p>
-                        </>
-                      )}
-
-                    {order.developmentMethod === "mixmatch" &&
-                      order.mixmatchChoice && (
-                        <>
-                          <p className="text-gray-400">
-                            🎨 Frontend: {order.mixmatchChoice.frontend}
-                          </p>
-                          <p className="text-gray-400">
-                            ⚙️ Backend: {order.mixmatchChoice.backend}
-                          </p>
-                          <p className="text-gray-400">
-                            🔌 API: {order.mixmatchChoice.api}
-                          </p>
-                          <p className="text-gray-400">
-                            📦 Database: {order.mixmatchChoice.database}
-                          </p>
-                        </>
-                      )}
-                  </div>
-
-                  {/* UI/UX Details */}
-                  <div className="mb-4">
-                    <h4 className="text-lg font-bold text-primary">Detail UI/UX</h4>
-                    <p className="text-gray-400">
-                      👥 Roles: {order.roles?.join(", ") || "Tidak ada"}
-                    </p>
-                    <p className="text-gray-400">
-                      🎨 UI Framework: {order.uiFramework?.join(", ") || "Default"}
-                    </p>
-                    <p className="text-gray-400">
-                      🎭 Theme: {order.themeChoice?.mode || "Default"}
-                    </p>
-                    <p className="text-gray-400">
-                      🔔 Notifikasi: {order.notificationType || "Default"}
-                    </p>
-                    {(order.customColors?.colors?.length ?? 0) > 0 && (
+                {order.developmentMethod === "fullstack" &&
+                  order.fullstackChoice && (
+                    <>
                       <p className="text-gray-400">
-                        🎨 Custom Colors: {order.customColors?.colors?.join(", ") || "Default"}
+                        🛠️ Framework: {order.fullstackChoice.framework}
                       </p>
-                    )}
-                  </div>
+                      <p className="text-gray-400">
+                        📦 Database: {order.fullstackChoice.database}
+                      </p>
+                    </>
+                  )}
 
-                  {/* Pricing */}
-                  <div className="mb-4">
-                    <h4 className="text-lg font-bold text-primary">Harga</h4>
-                    <p className="text-gray-400">
-                      💰 Harga Asli: Rp {order.originalPrice?.toLocaleString() || "0"}
-                    </p>
+                {order.developmentMethod === "mixmatch" &&
+                  order.mixmatchChoice && (
+                    <>
+                      <p className="text-gray-400">
+                        🎨 Frontend: {order.mixmatchChoice.frontend}
+                      </p>
+                      <p className="text-gray-400">
+                        ⚙️ Backend: {order.mixmatchChoice.backend}
+                      </p>
+                      <p className="text-gray-400">
+                        🔌 API: {order.mixmatchChoice.api}
+                      </p>
+                      <p className="text-gray-400">
+                        📦 Database: {order.mixmatchChoice.database}
+                      </p>
+                    </>
+                  )}
+              </div>
+
+              {/* UI/UX Details */}
+              <div className="mb-4">
+                <h4 className="text-lg font-bold text-primary">Detail UI/UX</h4>
+                <p className="text-gray-400">
+                  👥 Roles: {order.roles?.join(", ") || "Tidak ada"}
+                </p>
+                <p className="text-gray-400">
+                  🎨 UI Framework: {order.uiFramework?.join(", ") || "Default"}
+                </p>
+                <p className="text-gray-400">
+                  🎭 Theme: {order.themeChoice?.mode || "Default"}
+                </p>
+                <p className="text-gray-400">
+                  🔔 Notifikasi: {order.notificationType || "Default"}
+                </p>
+                    {(order.customColors?.colors?.length ?? 0) > 0 && (
+                  <p className="text-gray-400">
+                        🎨 Custom Colors: {order.customColors?.colors?.join(", ") || "Default"}
+                  </p>
+                )}
+              </div>
+
+              {/* Pricing */}
+              <div className="mb-4">
+                <h4 className="text-lg font-bold text-primary">Harga</h4>
+                <p className="text-gray-400">
+                  💰 Harga Asli: Rp {order.originalPrice?.toLocaleString() || "0"}
+                </p>
                     {(order.discount ?? 0) > 0 && (
-                      <p className="text-green-500">🎉 Diskon: {order.discount}%</p>
-                    )}
-                    <p className="text-white font-bold">
-                      💵 Total: Rp {order.finalPrice?.toLocaleString() || "0"}
-                    </p>
-                  </div>
+                  <p className="text-green-500">🎉 Diskon: {order.discount}%</p>
+                )}
+                <p className="text-white font-bold">
+                  💵 Total: Rp {order.finalPrice?.toLocaleString() || "0"}
+                </p>
+              </div>
 
-                  {/* Additional Info */}
-                  <div className="mb-4">
-                    <h4 className="text-lg font-bold text-primary">
-                      Info Tambahan
-                    </h4>
-                    <p className="text-gray-400">⏰ Deadline: {order.deadline}</p>
-                    <p className="text-gray-400">
-                      📝 Catatan: {order.notes || "Tidak ada"}
-                    </p>
-                    <p className="text-gray-400">
-                      📅 Dibuat:{" "}
+              {/* Additional Info */}
+              <div className="mb-4">
+                <h4 className="text-lg font-bold text-primary">
+                  Info Tambahan
+                </h4>
+                <p className="text-gray-400">⏰ Deadline: {order.deadline}</p>
+                <p className="text-gray-400">
+                  📝 Catatan: {order.notes || "Tidak ada"}
+                </p>
+                <p className="text-gray-400">
+                  📅 Dibuat:{" "}
                       {order.createdAt?.seconds ? new Date(order.createdAt.seconds * 1000).toLocaleString() : "N/A"}
-                    </p>
-                  </div>
+                </p>
+              </div>
 
                   {/* Actions Footer */}
                   <div className="mt-6 pt-4 border-t border-gray-700 flex gap-4">
-                    <select
+                <select
                       className="flex-1 px-4 py-2 rounded-xl bg-gray-800/50 text-white border border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                      value={order.status || "Pending"}
+                    value={order.status || "Pending"}
                       onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="Diproses">Diproses</option>
-                      <option value="Selesai">Selesai</option>
-                      <option value="Dibatalkan">Dibatalkan</option>
-                    </select>
-                    <button
-                      onClick={() => handleDeleteOrder(order.id)}
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Diproses">Diproses</option>
+                  <option value="Selesai">Selesai</option>
+                  <option value="Dibatalkan">Dibatalkan</option>
+                </select>
+                  <button
+                    onClick={() => handleDeleteOrder(order.id)}
                       className="px-6 py-2 bg-red-500/80 hover:bg-red-600 text-white rounded-xl transition-all duration-300"
-                    >
+                  >
                       Delete
-                    </button>
-                  </div>
+                  </button>
                 </div>
-              ))}
+              </div>
+          ))}
             </div>
-          )}
+      )}
         </div>
       </div>
     </div>
