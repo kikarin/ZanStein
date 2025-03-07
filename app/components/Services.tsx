@@ -25,34 +25,34 @@ const services = [
 
 const Services = () => {
   return (
-    <section className="py-24 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-16 sm:py-20 lg:py-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-secondary mb-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-secondary mb-4">
             Layanan Kami
           </h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {services.map((service, index) => (
             <div
               key={index}
-              className="glass-card p-6 hover-scale"
+              className="glass-card p-6 sm:p-8 hover-scale relative"
             >
               {/* Icon Container */}
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-primary bg-opacity-10 rounded-2xl">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 flex items-center justify-center bg-primary bg-opacity-10 rounded-2xl">
                 {service.icon}
               </div>
               
               {/* Content */}
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-secondary mb-3">
+                <h3 className="text-lg sm:text-xl font-semibold text-secondary mb-2 sm:mb-3">
                   {service.title}
                 </h3>
-                <p className="text-secondary-light text-sm leading-relaxed">
+                <p className="text-secondary-light text-sm sm:text-base leading-relaxed">
                   {service.description}
                 </p>
               </div>

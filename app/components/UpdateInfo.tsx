@@ -49,27 +49,29 @@ const InfoSection = () => {
   ];
 
   return (
-    <section ref={ref} className="py-16 px-4 relative overflow-hidden">
+    <section ref={ref} className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
       {/* Animasi Parallax Background */}
       <motion.div
         style={{ y: parallax }}
         className="absolute inset-0 bg-[url('/background.svg')] bg-cover bg-center opacity-10"
       />
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-3xl font-bold text-secondary text-center mb-12"
+          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary text-center mb-12"
         >
           Informasi Terbaru
         </motion.h2>
 
-        <InfoCategory title="Update Umum" updates={generalUpdates} />
-        <InfoCategory title="Diskon & Voucher" updates={discountUpdates} />
-        <InfoCategory title="Info Layanan" updates={serviceUpdates} />
+        <div className="max-w-4xl mx-auto">
+          <InfoCategory title="Update Umum" updates={generalUpdates} />
+          <InfoCategory title="Diskon & Voucher" updates={discountUpdates} />
+          <InfoCategory title="Info Layanan" updates={serviceUpdates} />
+        </div>
       </div>
     </section>
   );
@@ -125,27 +127,27 @@ const InfoCategory = ({ title, updates }: InfoCategoryProps) => {
   const visibleUpdates = showAll ? updates : updates.slice(0, 2);
 
   return (
-    <div className="mb-16">
+    <div className="mb-12 sm:mb-16 last:mb-0">
       <motion.h3
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="text-2xl font-semibold text-primary text-center mb-6"
+        className="text-xl sm:text-2xl font-semibold text-primary text-center mb-6 sm:mb-8"
       >
         {title}
       </motion.h3>
       <div className="relative">
         {/* Timeline Line */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-primary bg-opacity-20 hidden md:block"></div>
+        <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-primary bg-opacity-20 hidden md:block" />
 
         {/* Timeline Cards */}
-        <div className="space-y-12">
+        <div className="space-y-8 sm:space-y-12">
           {visibleUpdates.map((update, index) => (
             <motion.div
               key={index}
-              className={`relative flex items-center ${
-                index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+              className={`relative flex flex-col md:flex-row items-center ${
+                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
               }`}
             >
               {/* Dot */}
@@ -154,11 +156,13 @@ const InfoCategory = ({ title, updates }: InfoCategoryProps) => {
                 whileInView={{ scale: 1 }}
                 transition={{ duration: 0.3 }}
                 viewport={{ once: true }}
-                className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full hidden md:block"
+                className="absolute left-1/2 transform -translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-primary rounded-full hidden md:block"
               />
 
               {/* Card */}
-              <div className={`w-full md:w-1/2 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}>
+              <div className={`w-full md:w-1/2 ${
+                index % 2 === 0 ? "md:pr-8 lg:pr-12" : "md:pl-8 lg:pl-12"
+              }`}>
                 <InfoCard {...update} />
               </div>
             </motion.div>
@@ -166,12 +170,12 @@ const InfoCategory = ({ title, updates }: InfoCategoryProps) => {
         </div>
       </div>
 
-      {/* Tombol untuk melihat lebih banyak */}
+      {/* Show More Button */}
       {updates.length > 2 && (
-        <div className="text-center mt-6">
+        <div className="text-center mt-8">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition"
+            className="px-6 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all duration-300"
           >
             {showAll ? "Lihat Lebih Sedikit" : "Lihat Semua"}
           </button>
