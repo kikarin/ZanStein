@@ -23,34 +23,40 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
   const [loading, setLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [hasUsedDiscount, setHasUsedDiscount] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const checkDiscountUsage = async () => {
-      if (!user) return;
-      
+      if (!user || isInitialized) return;
+  
       try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists() && userDoc.data().hasUsedDiscount) {
           setHasUsedDiscount(true);
-          updateOrderData({ discount: 0 });
+          if (orderData.discount !== 0) {
+            updateOrderData({ discount: 0 });
+          }
         }
+        setIsInitialized(true);
       } catch (error) {
         console.error("Error checking discount:", error);
       }
     };
   
     checkDiscountUsage();
-  }, [user, updateOrderData]);
+  }, [user, isInitialized, orderData.discount, updateOrderData]);
+  
   
 
   useEffect(() => {
-    if (user) {
+    if (user && !isInitialized && !orderData.customerName) {
       updateOrderData({ 
         customerName: user.displayName || '',
         isNameLocked: true
       });
     }
-  }, [user, updateOrderData]);
+  }, [user, isInitialized, orderData.customerName, updateOrderData]);
+  
   
 
   const calculateTotal = () => {
@@ -73,6 +79,16 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
     orderData.uiFramework?.forEach(framework => {
       total += PRICE_LIST.uiFrameworks[framework] || 0;
     });
+
+    // Hitung harga Flutter UI Framework (jika ada)
+if (orderData.uiFramework) {
+  orderData.uiFramework.forEach(framework => {
+    if (framework.startsWith("flutter-")) {
+      total += PRICE_LIST.flutterUIFrameworks?.[framework] || 0;
+    }
+  });
+}
+
 
     if (orderData.notificationType) {
       total += PRICE_LIST.notifications[orderData.notificationType] || 0;
@@ -101,6 +117,7 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
         });
         return;
       }
+      console.log("Final Price:", finalPrice);
 
     setShowConfirmation(true);
   };
@@ -118,15 +135,15 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
         return;
       }
   
-      if (!orderData.projectType || !orderData.platform || !orderData.projectName) {
+      if (!orderData.customerName || !orderData.whatsappNumber || !orderData.projectType) {
         Swal.fire({
-          title: "Data Proyek Belum Lengkap!",
-          text: "Mohon lengkapi data proyek sebelum melanjutkan.",
+          title: "Data Tidak Lengkap!",
+          text: "Harap lengkapi data sebelum menyimpan.",
           icon: "warning",
           confirmButtonColor: "#33BADE",
         });
         return;
-      }
+      }      
 
       const totalPriceBeforeDiscount = calculateTotal();
       const finalPrice = orderData.discount 
@@ -156,6 +173,7 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
         },
         roles: orderData.roles || [],
         uiFramework: orderData.uiFramework || [],
+        flutterUIFrameworks: orderData.flutterUIFrameworks || [],
         themeChoice: orderData.themeChoice || { mode: 'default' },
         notificationType: orderData.notificationType || 'default',
         customColors: orderData.customColors || { colors: [] },
@@ -172,11 +190,12 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
       const docRef = await addDoc(collection(db, "orders"), orderDataToSave);
       console.log("Order ID:", docRef.id);
       
-      if (user && orderData.discount) {
+      if (user?.uid && orderData.discount) {
         await updateDoc(doc(db, "users", user.uid), {
-          hasUsedDiscount: true
+          hasUsedDiscount: true,
         });
       }
+      
 
       if (sendToAdmin) {
         const confirm = await Swal.fire({
@@ -196,10 +215,12 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
             createdAt: Timestamp.fromDate(new Date()),
             lastUpdated: Timestamp.fromDate(new Date())
           });
-          window.open(
-            `https://wa.me/6285693531495?text=${encodeURIComponent(waMessage)}`,
-            "_blank"
-          );
+          setTimeout(() => {
+            window.open(
+              `https://wa.me/6285693531495?text=${encodeURIComponent(waMessage)}`,
+              "_blank"
+            );
+          }, 1000);          
         } else {
           return;
         }
@@ -228,18 +249,41 @@ const Step4 = ({ orderData, updateOrderData}: Step4Props) => {
       setShowConfirmation(false);
     }
   };
-  const generateWhatsAppMessage = (order: Omit<OrderData, 'createdAt' | 'lastUpdated'> & { createdAt: Timestamp; lastUpdated: Timestamp }) => {    return `
-*🛒 ORDER BARU*
-Nama: ${order.customerName}
-Project: ${order.projectType}
-Platform: ${order.platform}
-Aplikasi: ${order.projectName}
-
-Deadline: ${order.deadline}
-Total: Rp ${finalPrice.toLocaleString()}
-${order.notes ? `\nCatatan: ${order.notes}` : ''}
-    `.trim();
+  const generateWhatsAppMessage = (
+    order: Omit<OrderData, "createdAt" | "lastUpdated"> & { createdAt: Timestamp; lastUpdated: Timestamp }
+  ) => {
+    const finalPrice = order.totalPrice || 0;
+  
+    return `
+  * ORDER BARU*
+   Nama: ${order.customerName}
+   Nomor WhatsApp: ${order.whatsappNumber}
+   Project: ${order.projectType}
+   Platform: ${order.platform || "Belum dipilih"}
+   Nama Aplikasi: ${order.projectName || "Belum diisi"}
+  
+   Metode Pengembangan: ${order.developmentMethod || "Belum dipilih"}
+   Teknologi:
+     ${order.fullstackChoice ? `- Fullstack: ${order.fullstackChoice.framework} + ${order.fullstackChoice.database}` : ""}
+     ${order.mixmatchChoice ? `- Mixmatch: ${order.mixmatchChoice.frontend} + ${order.mixmatchChoice.backend} + ${order.mixmatchChoice.api} + ${order.mixmatchChoice.database}` : ""}
+     ${order.uiFramework?.length ? `- UI Framework: ${order.uiFramework.join(", ")}` : ""}
+     ${order.flutterUIFrameworks?.length ? `- Flutter UI: ${order.flutterUIFrameworks.join(", ")}` : ""}
+  
+   Tema UI: ${order.themeChoice?.mode || "Default"}
+   Warna Custom: ${order.customColors?.colors?.join(", ") || "Tidak ada"}
+  
+   Tipe Notifikasi: ${order.notificationType || "Tidak ada"}
+   Link Referensi: ${order.referenceLink || "Tidak ada"}
+  
+   Deadline: ${order.deadline || "Tidak ada"}
+   Catatan: ${order.notes || "Tidak ada"}
+  
+   Metode Pembayaran: ${order.paymentMethod || "Belum dipilih"}
+   Diskon: ${order.discount || 0}%
+   Total: Rp ${finalPrice.toLocaleString("id-ID")}
+  `.trim();
   };
+  
 
   return (
     <div className="space-y-6">
@@ -300,53 +344,45 @@ ${order.notes ? `\nCatatan: ${order.notes}` : ''}
         </div>
       </form>
 
-      {/* Popup Konfirmasi dengan Scroll */}
-      {showConfirmation && (
-        <div className="fixed inset-0 bg-gray-100 bg-opacity-50 flex justify-center items-start z-50 p-4 overflow-y-auto">
-          <div className="bg-gray-100 p-6 rounded-lg border border-primary w-full max-w-2xl my-8">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-primary">
-                Konfirmasi Order
-              </h2>
-              <button 
-                onClick={() => setShowConfirmation(false)}
-                className="text-gray-400 hover:text-gray-800"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <div className="max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
-              <OrderSummary orderData={orderData} isPreview={true} />
-            </div>
+{/* Popup Konfirmasi dengan Scroll */}
+{showConfirmation && (
+  <div className="bottom-28 fixed inset-0 bg-gray-100 bg-opacity-50 flex justify-center items-center z-[100] p-4">
+    <div className="bg-white p-6 rounded-lg border border-primary w-full max-w-2xl my-8 shadow-xl relative z-[101]">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold text-primary">Konfirmasi Order</h2>
+        <button 
+          onClick={() => setShowConfirmation(false)}
+          className="text-gray-400 hover:text-gray-800 text-xl"
+        >
+          ✕
+        </button>
+      </div>
 
-            <div className="flex justify-between mt-6 gap-4 pt-4 border-t border-gray-700">
-              <button
-                onClick={() => setShowConfirmation(false)}
-                className="flex-1 px-4 py-2 bg-gray-600 text-gray-800 rounded-lg hover:bg-gray-700"
-              >
-                Batalkan
-              </button>
-              <button
-                onClick={() => handleSaveOrder(false)}
-                disabled={loading}
-                className="flex-1 px-4 py-2 bg-primary text-gray-800 rounded-lg hover:bg-primary-dark disabled:opacity-50"
-              >
-                {loading ? "Menyimpan..." : "Pesan"}
-              </button>
-              <button
-                onClick={() => handleSaveOrder(true)}
-                disabled={loading}
-                className="flex-1 px-4 py-2 bg-green-600 text-gray-800 rounded-lg hover:bg-green-700 disabled:opacity-50"
-              >
-                {loading ? "Menyimpan..." : "Pesan & Teruskan"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Kontainer untuk scroll jika konten panjang */}
+      <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+        <OrderSummary orderData={orderData} isPreview={true} />
+      </div>
+
+      {/* Tombol navigasi dalam popup */}
+      <div className="relative z-[102] flex flex-col sm:flex-row justify-between gap-4 mt-6 pt-4 border-t border-gray-300">
+        <button
+          onClick={() => setShowConfirmation(false)}
+          className="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all"
+        >
+          Batalkan
+        </button>
+        <button
+          onClick={() => handleSaveOrder(false)}
+          disabled={loading}
+          className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all disabled:opacity-50"
+        >
+          {loading ? "Menyimpan..." : "Pesan"}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
-};
-
+}
 export default Step4;

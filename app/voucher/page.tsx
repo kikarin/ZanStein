@@ -71,7 +71,11 @@ export default function VoucherPage() {
             <>
               <h3 className="text-5xl font-extrabold text-accent">{discount}%</h3>
               <p className="text-gray-500 mt-2">
-                Gunakan diskon ini di halaman Order sebelum checkout.
+                Voucher otomatis digunakan saat checkout.
+              </p>
+              {/* Teks tambahan expired voucher */}
+              <p className="text-xs text-red-500 mt-2">
+              28 March voucher expired
               </p>
             </>
           ) : (

@@ -136,42 +136,44 @@ const OrderForm = () => {
               )}
             </motion.div>
           )}
-          {step === 4 && (
-            <motion.div
-              key="step4"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Step4 orderData={orderData} updateOrderData={updateOrderData} prevStep={prevStep} />
-            </motion.div>
-          )}
+{step === 4 && (
+  <motion.div
+    key="step4"
+    initial={{ opacity: 0, x: 30 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: -30 }}
+    transition={{ duration: 0.3 }}
+    className="relative z-[100]" // Menjadikan Step4 paling depan
+  >
+    <Step4 orderData={orderData} updateOrderData={updateOrderData} prevStep={prevStep} />
+  </motion.div>
+)}
+
         </AnimatePresence>
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="mt-6 flex justify-between">
-        {step > 1 && (
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            className="btn-secondary"
-            onClick={prevStep}
-          >
-            ⬅️ Kembali
-          </motion.button>
-        )}
-        {step < 4 && (
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.05 }}
-            className="btn-primary"
-            onClick={nextStep}
-          >
-            Lanjut ➡️
-          </motion.button>
-        )}
-      </div>
+{/* Navigation Buttons */}
+<div className="mt-6 flex justify-between relative z-0">
+  {step > 1 && (
+    <motion.button
+      whileTap={{ scale: 0.9 }}
+      className="btn-secondary relative z-[1]" // Pastikan tombol Kembali tidak lebih tinggi dari Step4
+      onClick={prevStep}
+    >
+      ⬅️ Kembali
+    </motion.button>
+  )}
+  {step < 4 && (
+    <motion.button
+      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.05 }}
+      className="btn-primary relative z-[1]" // Pastikan tombol Lanjut tidak menutupi Step4
+      onClick={nextStep}
+    >
+      Lanjut ➡️
+    </motion.button>
+  )}
+</div>
     </div>
   );
 };

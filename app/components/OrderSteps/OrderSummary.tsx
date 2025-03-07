@@ -98,7 +98,7 @@ try {
   }
 
   Swal.fire("Berhasil!", "Pesanan berhasil disimpan!", "success").then(() => {
-    router.push("/");
+    router.push("/my-orders");
   });
 } catch (error) {
   console.error("Gagal menyimpan order:", error);
@@ -108,64 +108,74 @@ try {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="space-y-6"
-    >
-      {/* Header */}
-      <div className="text-center">
-        <h2 className="text-2xl font-semibold text-primary">
-          Ringkasan Pesanan
-        </h2>
-        <p className="text-gray-500 mt-1">
-          Pastikan data pesanan Anda sudah benar sebelum konfirmasi.
-        </p>
-      </div>
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
+    transition={{ duration: 0.3, ease: "easeOut" }} // Animasi lebih smooth
+    className="space-y-6 p-4 sm:p-6 bg-white shadow-lg rounded-lg"
+  >
+    {/* Header */}
+    <div className="text-center">
+      <h2 className="text-2xl sm:text-3xl font-semibold text-primary">
+        Data Pesanan
+      </h2>
+      <p className="text-gray-500 mt-2 text-sm sm:text-base">
+        Pastikan data pesanan Anda sudah benar sebelum konfirmasi.
+      </p>
+    </div>
 
       {/* Order Details */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="p-6 bg-white/80 backdrop-blur-md shadow-xl rounded-lg border border-gray-200 space-y-4"
-      >
-        {Object.entries({
-          "Jenis Proyek": orderData.projectType,
-          Platform: orderData.platform || "Belum dipilih",
-          "Nama Aplikasi": orderData.projectName || "Belum diisi",
-          "Link Referensi": orderData.referenceLink || "Tidak ada",
-          "Stack Teknologi": orderData.developmentMethod || "Belum dipilih",
-          // "Fullstack Framework": orderData.fullstackChoice?.framework?.join(", ") || "Tidak ada",
-          // "Frontend Framework": orderData.mixmatchChoice?.frontend?.join(", ") || "Tidak ada",
-          // "Backend Framework": orderData.mixmatchChoice?.backend?.join(", ") || "Tidak ada",
-          // "Database": orderData.databaseChoice?.join(", ") || "Tidak ada",
-          // "API": orderData.apiChoice?.join(", ") || "Tidak ada",
-          "UI Framework": orderData.uiFramework?.join(", ") || "Tidak ada",
-          "Flutter UI Framework":
-            orderData.uiFramework
-              ?.filter((fw) => fw.startsWith("flutter"))
-              .map((fw) => fw.replace("flutter-", "").toUpperCase())
-              .join(", ") || "None",
-          // "Notifikasi": orderData.notificationChoice?.join(", ") || "Tidak ada",
-          "Tema UI": orderData.themeChoice?.mode || "Default",
-          // "Style Tema": orderData.themeChoice?.style || "Default",
-          "Batas Waktu": orderData.deadline || "Tidak ada",
-          "Metode Pembayaran": orderData.paymentMethod || "Belum dipilih",
-          Diskon: `${orderData.discount || 0}%`,
-          "Total Harga": `Rp ${
-            orderData.totalPrice?.toLocaleString("id-ID") || "0"
-          }`,
-        }).map(([label, value], index) => (
-          <motion.p
-            key={index}
-            className="p-2 border-b last:border-none text-gray-700"
-            whileHover={{ scale: 1.02 }}
-          >
-            <strong>{label}:</strong> {value}
-          </motion.p>
-        ))}
-      </motion.div>
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.2 }}
+      className="p-6 bg-white/80 backdrop-blur-md shadow-xl rounded-lg border border-gray-200 space-y-4"
+    >
+      <h2 className="text-lg font-semibold text-gray-800">Detail Order</h2>
+
+      <div className="space-y-3">
+  {[
+    { label: "Jenis Proyek", value: orderData.projectType },
+    { label: "Platform", value: orderData.platform },
+    { label: "Tipe Aplikasi", value: orderData.applicationType },
+    { label: "Nama Aplikasi", value: orderData.projectName },
+    { label: "Nomor WhatsApp", value: orderData.whatsappNumber },
+    { label: "Link Referensi", value: orderData.referenceLink },
+    { label: "Metode Pengembangan", value: orderData.developmentMethod },
+    { label: "Pilihan Fullstack", value: orderData.fullstackChoice?.framework },
+    { label: "Pilihan Database", value: orderData.fullstackChoice?.database },
+    { label: "Pilihan Mixmatch (Frontend)", value: orderData.mixmatchChoice?.frontend },
+    { label: "Pilihan Mixmatch (Backend)", value: orderData.mixmatchChoice?.backend },
+    { label: "Pilihan Mixmatch (Database)", value: orderData.mixmatchChoice?.database },
+    { label: "Roles", value: orderData.roles?.join(", ") },
+    { label: "Framework UI", value: orderData.uiFramework?.join(", ") },
+    { label: "Framework UI (Flutter)", value: orderData.flutterUIFrameworks?.join(", ") },
+    { label: "Tipe Notifikasi", value: orderData.notificationType },
+    { label: "Warna Custom", value: orderData.customColors?.colors?.join(", ") },
+    { label: "Tema UI", value: orderData.themeChoice?.mode },
+    { label: "Batas Waktu", value: orderData.deadline },
+    { label: "Catatan", value: orderData.notes },
+    { label: "Metode Pembayaran", value: orderData.paymentMethod },
+    { label: "Diskon", value: orderData.discount ? `${orderData.discount}%` : null },
+    { 
+      label: "Total Harga", 
+      value: orderData.totalPrice ? `Rp ${orderData.totalPrice.toLocaleString("id-ID")}` : null
+    },
+  ]
+  // 🔥 Filter hanya data yang memiliki nilai
+  .filter(({ value }) => value && value !== "Tidak ada" && value !== "Belum dipilih")
+  .map(({ label, value }, index) => (
+    <motion.p
+      key={index}
+      className="p-2 border-b last:border-none text-gray-700"
+      whileHover={{ scale: 1.02 }}
+    >
+      <strong>{label}:</strong> {value}
+    </motion.p>
+  ))}
+</div>
+
+    </motion.div>
 
       {/* Navigation Buttons */}
       {!isPreview && prevStep && (

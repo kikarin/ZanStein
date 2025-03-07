@@ -24,7 +24,10 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (!target.closest("#profile-menu") && !target.closest("#profile-button")) {
+      if (
+        !target.closest("#profile-menu") &&
+        !target.closest("#profile-button")
+      ) {
         setIsProfileOpen(false);
       }
       if (!target.closest("#mobile-menu") && !target.closest("#menu-button")) {
@@ -198,24 +201,46 @@ const Navbar = () => {
               ))}
 
               {/* User Profile Section in Mobile */}
-              {user && (
-                <div className="mt-4 border-t border-gray-200 pt-2">
-                  {profileItems.map((item) => (
+              <div className="mt-4 border-t border-gray-200 pt-2">
+                {user ? (
+                  <>
+                    {profileItems.map((item) => (
+                      <motion.button
+                        key={item.path}
+                        onClick={() => {
+                          router.push(item.path);
+                          setIsOpen(false);
+                        }}
+                        className="flex items-center w-full px-4 py-2 text-sm text-secondary hover:bg-gray-100 hover:text-accent transition-all duration-300"
+                        whileHover={{ x: 5 }}
+                      >
+                        <span className="mr-2">{item.icon}</span>
+                        {item.label}
+                      </motion.button>
+                    ))}
                     <motion.button
-                      key={item.path}
-                      onClick={() => {
-                        router.push(item.path);
-                        setIsOpen(false);
-                      }}
-                      className="flex items-center w-full px-4 py-2 text-sm text-secondary hover:bg-gray-100 hover:text-accent transition-all duration-300"
+                      onClick={handleLogout}
+                      className="flex items-center w-full px-4 py-2 text-sm text-red-500 hover:bg-red-100 transition-all duration-300"
                       whileHover={{ x: 5 }}
                     >
-                      <span className="mr-2">{item.icon}</span>
-                      {item.label}
+                      <FiLogOut className="mr-2" />
+                      Logout
                     </motion.button>
-                  ))}
-                </div>
-              )}
+                  </>
+                ) : (
+                  <motion.button
+                    onClick={() => {
+                      router.push("/login");
+                      setIsOpen(false);
+                    }}
+                    className="w-full bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-dark transition-all duration-300 shadow-md"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Login
+                  </motion.button>
+                )}
+              </div>
             </div>
           </motion.div>
         )}

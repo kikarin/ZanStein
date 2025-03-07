@@ -11,11 +11,11 @@ export const PRICE_LIST: PriceList = {
     operator: 9000,
   },
   fullstackFrameworks: {
-    laravel: 120000,
-    nextjs: 130000,
+    laravel: 125000,  // Naik biar setara dengan Django
     django: 125000,
-    rails: 130000,
-    'flutter': 220000
+    rails: 125000,  // Turun sedikit karena lebih niche
+    nextjs: 130000,
+    'flutter': 280000
   },
   flutterUIFrameworks: {
     // 1️⃣ Default UI Framework (Gratis)
@@ -45,35 +45,35 @@ export const PRICE_LIST: PriceList = {
     postgresql: 30000,
     firebase: 35000,
     supabase: 35000,
-    sqlite: 20000
   },
   frontends: {
-    react: 70000,
     vue: 65000,
-    angular: 80000,
-    svelte: 75000,
     nuxt: 70000,
+    svelte: 70000,  // Turun dikit
+    vite: 75000,
+    react: 80000,
+    angular: 85000,  // Naik dikit karena kompleks
+    nextjs: 90000,  // Naik dikit karena SSR
     'flutter': 220000
   },
   backends: {
-    laravel: 90000,
     express: 75000,
-    golang: 90000,
-    django: 85000,
-    nestjs: 85000,
-    spring: 95000
+    nestjs: 88000,  // Naik sedikit karena lebih enterprise-ready
+    django: 92000,  // Naik sedikit karena skalabilitas tinggi
+    laravel: 90000,
+    golang: 95000,  // Naik sedikit karena performa tinggi
+    spring: 130000  // Naik karena lebih kompleks dan enterprise-level
   },
   apis: {
     rest: 25000,
-    graphql: 40000,
-    grpc: 45000
-  },
+    graphql: 42000,  // Naik sedikit karena lebih kompleks
+  },  
   uiFrameworks: {
     bootstrap: 25000,
     tailwind: 30000,
+    chakra: 30000,
     material: 35000,
     antd: 35000,
-    chakra: 30000,
     kitten: 25000,
   },
   uiThemes: {
@@ -82,9 +82,9 @@ export const PRICE_LIST: PriceList = {
   notifications: {
     browser: 0,
     sweetalert: 15000,
-    toastify: 12000,
+    toastify: 16000,  // Naik sedikit karena tetap lebih ringan dari Snackbar
     snackbar: 18000,
-  },
+  },  
   deadlines: {
     '30days': 0,
     '14days': 30000,

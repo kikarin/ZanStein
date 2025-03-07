@@ -38,7 +38,7 @@ const Welcome = () => {
         animate="visible"
       >
         {/* Hero Section */}
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-12 text-center lg:text-left">
+        <div className="mb-12 lg:mb-0 flex flex-col-reverse lg:flex-row items-center gap-12 text-center lg:text-left">
           {/* Text Section */}
           <motion.div variants={itemVariants} className="lg:w-1/2">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent mb-6">
