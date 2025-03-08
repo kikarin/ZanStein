@@ -78,8 +78,8 @@ const AboutUs = () => {
                       Membangun solusi digital yang mudah diakses, cepat, dan
                       bermanfaat bagi semua orang yang membutuhkan bantuan dalam
                       pengembangan website dan aplikasi.
-                    </p>
-                  </div>
+        </p>
+      </div>
 
                   {/* Garis pemisah */}
                   <div className="h-px bg-gray-300" />
@@ -125,8 +125,8 @@ const AboutUs = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                <Image
-                  src="/undraw_programming_65t2.svg"
+          <Image 
+            src="/undraw_programming_65t2.svg" 
                   alt="Tentang Zanstein"
                   width={400}
                   height={400}

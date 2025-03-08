@@ -33,6 +33,7 @@ import {
   SunIcon,
   SwatchIcon,
   PuzzlePieceIcon,
+  UserGroupIcon
 } from "@heroicons/react/24/outline";
 import Swal from "sweetalert2";
 
@@ -49,6 +50,7 @@ interface Order {
   applicationType: string;
   customApplicationType?: string;
   referenceLink?: string;
+  role?: string;
   developmentMethod?: "fullstack" | "mixmatch";
   fullstackChoice?: { framework: string; database: string };
   mixmatchChoice?: {
@@ -130,6 +132,7 @@ export default function MyOrders() {
   
   📌 *Pengembangan*
   🔧 *Metode:* ${order.developmentMethod || "Belum dipilih"}
+  👥 *Role:* ${order.role || "Tidak ada"}
   ${
     order.fullstackChoice
       ? `⚙️ *Fullstack:* ${order.fullstackChoice.framework} | ${order.fullstackChoice.database}`
@@ -367,6 +370,14 @@ export default function MyOrders() {
               )}
 
               {/* Informasi Pengembangan */}
+
+              <p className="flex items-center gap-2">
+                <UserGroupIcon className="w-4 h-4 text-gray-500" />
+                Role :{" "}
+                <span className="font-medium text-gray-800">
+                  {order.roles || "Tidak ada"}
+                </span>
+                </p>
               <p className="flex items-center gap-2">
                 <CodeBracketSquareIcon className="w-4 h-4 text-gray-500" />
                 Metode Pengembangan:{" "}

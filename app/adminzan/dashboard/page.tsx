@@ -41,9 +41,7 @@ type Order = {
   roles?: string[];
   uiFramework?: string[];
   flutterUIFrameworks?: string[];
-  themeChoice?: {
-    mode: string;
-  };
+  themeChoice?: { mode?: string; style?: string };
   notificationType?: string;
   customColors?: {
     colors: string[];
@@ -365,6 +363,9 @@ export default function AdminDashboard() {
                 </p>
                 <p className="text-gray-400">
                   🎭 Theme: {order.themeChoice?.mode || "Default"}
+                </p>
+                <p className="text-gray-400">
+                  🎭 Style: {order.themeChoice?.style || "Default"}
                 </p>
                 <p className="text-gray-400">
                   🔔 Notifikasi: {order.notificationType || "Default"}

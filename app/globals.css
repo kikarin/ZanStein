@@ -134,3 +134,22 @@ body {
   content: "1%";
   animation: spinGacha 2s ease-in-out forwards;
 }
+
+
+.admin-reply-box {
+  padding: 12px 16px; /* Tambah padding */
+  background-color: #f8f9fa; /* Warna abu lebih soft */
+  border-left: 5px solid #4E95E5; /* Sesuai accent color */
+  border-radius: 10px; /* Border lebih soft */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Shadow buat efek floating */
+}
+
+.admin-reply-text {
+  color: #2D3748; /* Warna teks lebih gelap biar jelas */
+  font-weight: 500;
+}
+
+.admin-reply-icon {
+  color: #4E95E5; /* Sesuai accent color */
+  font-size: 20px;
+}

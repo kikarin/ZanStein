@@ -80,135 +80,210 @@ const OrderSummary = ({
       return;
     }
 
-try {
-  console.log("Data sebelum disimpan:", orderData);
+    try {
+      console.log("Data sebelum disimpan:", orderData);
 
-  await addDoc(collection(db, "orders"), {
-    orderId: `ORD-${Date.now()}`,
-    ...orderData,
-    totalPrice: orderData.totalPrice || 0, // Pastikan tidak null
-    uiFramework: orderData.uiFramework || [], // Pastikan tidak undefined
-    orderDate: serverTimestamp(),
-    orderStatus: "Pending",
-  });
+      await addDoc(collection(db, "orders"), {
+        orderId: `ORD-${Date.now()}`,
+        ...orderData,
+        totalPrice: orderData.totalPrice || 0, // Pastikan tidak null
+        uiFramework: orderData.uiFramework || [], // Pastikan tidak undefined
+        orderDate: serverTimestamp(),
+        orderStatus: "Pending",
+      });
 
-  if (orderData.voucherCode) {
-    const voucherRef = doc(db, "vouchers", orderData.voucherCode);
-    await updateDoc(voucherRef, { used: true });
-  }
+      if (orderData.voucherCode) {
+        const voucherRef = doc(db, "vouchers", orderData.voucherCode);
+        await updateDoc(voucherRef, { used: true });
+      }
 
-  Swal.fire("Berhasil!", "Pesanan berhasil disimpan!", "success").then(() => {
-    router.push("/my-orders");
-  });
-} catch (error) {
-  console.error("Gagal menyimpan order:", error);
-  Swal.fire("Error!", "Terjadi kesalahan saat menyimpan pesanan.", "error");
-} 
-};
+      Swal.fire("Berhasil!", "Pesanan berhasil disimpan!", "success").then(() => {
+        router.push("/my-orders");
+      });
+    } catch (error) {
+      console.error("Gagal menyimpan order:", error);
+      Swal.fire("Error!", "Terjadi kesalahan saat menyimpan pesanan.", "error");
+    }
+  };
 
   return (
     <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -20 }}
-    transition={{ duration: 0.3, ease: "easeOut" }} // Animasi lebih smooth
-    className="space-y-6 p-4 sm:p-6 bg-white shadow-lg rounded-lg"
-  >
-    {/* Header */}
-    <div className="text-center">
-      <h2 className="text-2xl sm:text-3xl font-semibold text-primary">
-        Data Pesanan
-      </h2>
-      <p className="text-gray-500 mt-2 text-sm sm:text-base">
-        Pastikan data pesanan Anda sudah benar sebelum konfirmasi.
-      </p>
-    </div>
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="space-y-6"
+    >
+      {/* Header */}
+      <div className="text-center mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-primary">
+          Detail Pesanan
+        </h2>
+        <p className="text-gray-500 mt-2 text-sm sm:text-base">
+          Mohon periksa kembali detail pesanan Anda
+        </p>
+      </div>
 
       {/* Order Details */}
       <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.2 }}
-      className="p-6 bg-white/80 backdrop-blur-md shadow-xl rounded-lg border border-gray-200 space-y-4"
-    >
-      <h2 className="text-lg font-semibold text-gray-800">Detail Order</h2>
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
+      >
+        {/* Left Column - Basic Info */}
+        <div className="space-y-4 bg-gray-50/80 p-4 sm:p-6 rounded-lg">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-2">
+            Informasi Dasar
+          </h3>
+          <div className="space-y-3">
+            {[
+              { label: "Jenis Proyek", value: orderData.projectType },
+              { label: "Platform", value: orderData.platform },
+              { label: "Tipe Aplikasi", value: orderData.applicationType },
+              { label: "Nama Aplikasi", value: orderData.projectName },
+              { label: "Nomor WhatsApp", value: orderData.whatsappNumber },
+              { label: "Link Referensi", value: orderData.referenceLink },
+            ]
+              .filter(({ value }) => value && value !== "Tidak ada" && value !== "Belum dipilih")
+              .map(({ label, value }, index) => (
+                <motion.div
+                  key={index}
+                  className="p-2 sm:p-3 bg-white rounded-lg shadow-sm"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <p className="text-sm text-gray-500">{label}</p>
+                  <p className="text-sm sm:text-base font-medium text-gray-800">{value}</p>
+                </motion.div>
+              ))}
+          </div>
+        </div>
 
-      <div className="space-y-3">
-  {[
-    { label: "Jenis Proyek", value: orderData.projectType },
-    { label: "Platform", value: orderData.platform },
-    { label: "Tipe Aplikasi", value: orderData.applicationType },
-    { label: "Nama Aplikasi", value: orderData.projectName },
-    { label: "Nomor WhatsApp", value: orderData.whatsappNumber },
-    { label: "Link Referensi", value: orderData.referenceLink },
-    { label: "Metode Pengembangan", value: orderData.developmentMethod },
-    { label: "Pilihan Fullstack", value: orderData.fullstackChoice?.framework },
-    { label: "Pilihan Database", value: orderData.fullstackChoice?.database },
-    { label: "Pilihan Mixmatch (Frontend)", value: orderData.mixmatchChoice?.frontend },
-    { label: "Pilihan Mixmatch (Backend)", value: orderData.mixmatchChoice?.backend },
-    { label: "Pilihan Mixmatch (Database)", value: orderData.mixmatchChoice?.database },
-    { label: "Roles", value: orderData.roles?.join(", ") },
-    { label: "Framework UI", value: orderData.uiFramework?.join(", ") },
-    { label: "Framework UI (Flutter)", value: orderData.flutterUIFrameworks?.join(", ") },
-    { label: "Tipe Notifikasi", value: orderData.notificationType },
-    { label: "Warna Custom", value: orderData.customColors?.colors?.join(", ") },
-    { label: "Tema UI", value: orderData.themeChoice?.mode },
-    { label: "Batas Waktu", value: orderData.deadline },
-    { label: "Catatan", value: orderData.notes },
-    { label: "Metode Pembayaran", value: orderData.paymentMethod },
-    { label: "Diskon", value: orderData.discount ? `${orderData.discount}%` : null },
-    { 
-      label: "Total Harga", 
-      value: orderData.totalPrice ? `Rp ${orderData.totalPrice.toLocaleString("id-ID")}` : null
-    },
-  ]
-  // 🔥 Filter hanya data yang memiliki nilai
-  .filter(({ value }) => value && value !== "Tidak ada" && value !== "Belum dipilih")
-  .map(({ label, value }, index) => (
-    <motion.p
-      key={index}
-      className="p-2 border-b last:border-none text-gray-700"
-      whileHover={{ scale: 1.02 }}
-    >
-      <strong>{label}:</strong> {value}
-    </motion.p>
-  ))}
-</div>
+        {/* Right Column - Technical Details */}
+        <div className="space-y-4 bg-gray-50/80 p-4 sm:p-6 rounded-lg">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-2">
+            Detail Teknis
+          </h3>
+          <div className="space-y-3">
+            {[
+              { label: "Metode Pengembangan", value: orderData.developmentMethod },
+              { label: "Framework", value: orderData.fullstackChoice?.framework || orderData.mixmatchChoice?.frontend },
+              { label: "Database", value: orderData.fullstackChoice?.database || orderData.mixmatchChoice?.database },
+              { label: "Backend", value: orderData.mixmatchChoice?.backend },
+              { label: "API", value: orderData.mixmatchChoice?.api },
+              { label: "Roles", value: orderData.roles?.join(", ") },
+              { label: "UI Framework", value: orderData.uiFramework?.join(", ") },
+              { label: "Flutter UI", value: orderData.flutterUIFrameworks?.join(", ") },
+            ]
+              .filter(({ value }) => value && value !== "Tidak ada" && value !== "Belum dipilih")
+              .map(({ label, value }, index) => (
+                <motion.div
+                  key={index}
+                  className="p-2 sm:p-3 bg-white rounded-lg shadow-sm"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <p className="text-sm text-gray-500">{label}</p>
+                  <p className="text-sm sm:text-base font-medium text-gray-800">{value}</p>
+                </motion.div>
+              ))}
+          </div>
+        </div>
 
-    </motion.div>
+        {/* Bottom Section - Additional Details */}
+        <div className="col-span-1 sm:col-span-2 space-y-4 bg-gray-50/80 p-4 sm:p-6 rounded-lg">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-2">
+            Detail Tambahan
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { label: "Tipe Notifikasi", value: orderData.notificationType },
+              { label: "Tema UI", value: orderData.themeChoice?.mode },
+              { label: "Warna Custom", value: orderData.customColors?.colors?.join(", ") },
+              { label: "Batas Waktu", value: orderData.deadline },
+              { label: "Metode Pembayaran", value: orderData.paymentMethod },
+              { label: "Diskon", value: orderData.discount ? `${orderData.discount}%` : null },
+            ]
+              .filter(({ value }) => value && value !== "Tidak ada" && value !== "Belum dipilih")
+              .map(({ label, value }, index) => (
+                <motion.div
+                  key={index}
+                  className="p-2 sm:p-3 bg-white rounded-lg shadow-sm"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <p className="text-sm text-gray-500">{label}</p>
+                  <p className="text-sm sm:text-base font-medium text-gray-800">{value}</p>
+                </motion.div>
+              ))}
+          </div>
+
+          {/* Notes Section */}
+          {orderData.notes && (
+            <div className="mt-4">
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Catatan:</h4>
+              <div className="p-3 bg-white rounded-lg shadow-sm">
+                <p className="text-sm sm:text-base text-gray-800">{orderData.notes}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Total Price Section */}
+          <div className="mt-6 p-4 bg-primary/10 rounded-lg">
+            <div className="flex justify-between items-center">
+              <h4 className="text-base sm:text-lg font-semibold text-gray-800">Total Harga:</h4>
+              <div className="text-right">
+                {orderData.discount ? (
+                  <>
+                    <p className="text-sm line-through text-gray-500">
+                      Rp {orderData.totalPrice?.toLocaleString("id-ID")}
+                    </p>
+                    <p className="text-lg sm:text-xl font-bold text-primary">
+                      Rp {(orderData.totalPrice! * (1 - orderData.discount/100)).toLocaleString("id-ID")}
+                    </p>
+                    <p className="text-xs sm:text-sm text-green-500">
+                      Hemat {orderData.discount}%
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-lg sm:text-xl font-bold text-primary">
+                    Rp {orderData.totalPrice?.toLocaleString("id-ID")}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Navigation Buttons */}
       {!isPreview && prevStep && (
-        <div className="flex justify-between pt-4">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 mt-8">
           <motion.button
             onClick={prevStep}
-            className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="w-full sm:w-auto px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <FiArrowLeft />
+            <FiArrowLeft className="text-lg" />
             <span>Kembali</span>
           </motion.button>
 
           <motion.button
             onClick={() => saveOrderToFirestore()}
             disabled={loading}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg text-white transition-all ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-primary hover:bg-primary-dark shadow-lg"
-            }`}
-            whileHover={!loading ? { scale: 1.05 } : {}}
-            whileTap={!loading ? { scale: 0.95 } : {}}
+            className={`w-full sm:w-auto px-6 py-3 rounded-lg text-white transition-all flex items-center justify-center gap-2
+              ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-primary hover:bg-primary-dark"}
+            `}
+            whileHover={!loading ? { scale: 1.02 } : {}}
+            whileTap={!loading ? { scale: 0.98 } : {}}
           >
             {loading ? (
               <>
-                <FiLoader className="animate-spin" />
+                <FiLoader className="animate-spin text-lg" />
                 <span>Menyimpan...</span>
               </>
             ) : (
               <>
-                <FiCheck />
+                <FiCheck className="text-lg" />
                 <span>Konfirmasi & Simpan</span>
               </>
             )}

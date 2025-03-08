@@ -234,7 +234,7 @@ if (orderData.uiFramework) {
         icon: "success",
         confirmButtonColor: "#33BADE",
       }).then(() => {
-        router.push("/");
+        router.push("/my-orders");
       });
     } catch (error) {
       console.error("Error saving order:", error);
@@ -346,38 +346,46 @@ if (orderData.uiFramework) {
 
 {/* Popup Konfirmasi dengan Scroll */}
 {showConfirmation && (
-  <div className="bottom-28 fixed inset-0 bg-gray-100 bg-opacity-50 flex justify-center items-center z-[100] p-4">
-    <div className="bg-white p-6 rounded-lg border border-primary w-full max-w-2xl my-8 shadow-xl relative z-[101]">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-primary">Konfirmasi Order</h2>
-        <button 
-          onClick={() => setShowConfirmation(false)}
-          className="text-gray-400 hover:text-gray-800 text-xl"
-        >
-          ✕
-        </button>
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[100] p-4 overflow-y-auto">
+    <div className="bg-white rounded-xl border border-primary shadow-2xl w-full max-w-3xl my-4 sm:my-8 relative z-[101]">
+      {/* Modal Header */}
+      <div className="p-4 sm:p-6 border-b border-gray-200">
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-primary">Konfirmasi Order</h2>
+          <button 
+            onClick={() => setShowConfirmation(false)}
+            className="p-2 hover:bg-gray-100 rounded-full transition-all"
+          >
+            <span className="text-gray-400 hover:text-gray-600 text-xl">✕</span>
+          </button>
+        </div>
+        <p className="mt-2 text-sm sm:text-base text-gray-600">
+          Mohon periksa kembali detail pesanan Anda sebelum melanjutkan.
+        </p>
       </div>
 
-      {/* Kontainer untuk scroll jika konten panjang */}
-      <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+      {/* Modal Body with Scroll */}
+      <div className="p-4 sm:p-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
         <OrderSummary orderData={orderData} isPreview={true} />
       </div>
 
-      {/* Tombol navigasi dalam popup */}
-      <div className="relative z-[102] flex flex-col sm:flex-row justify-between gap-4 mt-6 pt-4 border-t border-gray-300">
-        <button
-          onClick={() => setShowConfirmation(false)}
-          className="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all"
-        >
-          Batalkan
-        </button>
-        <button
-          onClick={() => handleSaveOrder(false)}
-          disabled={loading}
-          className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all disabled:opacity-50"
-        >
-          {loading ? "Menyimpan..." : "Pesan"}
-        </button>
+      {/* Modal Footer */}
+      <div className="p-4 sm:p-6 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+        <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
+          <button
+            onClick={() => setShowConfirmation(false)}
+            className="w-full sm:w-auto px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all text-sm sm:text-base"
+          >
+            Batalkan
+          </button>
+          <button
+            onClick={() => handleSaveOrder(false)}
+            disabled={loading}
+            className="w-full sm:w-auto px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all disabled:opacity-50 text-sm sm:text-base"
+          >
+            {loading ? "Menyimpan..." : "Konfirmasi Pesanan"}
+          </button>
+        </div>
       </div>
     </div>
   </div>

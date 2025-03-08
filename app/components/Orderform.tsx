@@ -11,6 +11,7 @@ import Step2 from "./OrderSteps/Step2";
 import Step3B from "./OrderSteps/Step3B";
 import Step4 from "./OrderSteps/Step4";
 import { motion, AnimatePresence } from "framer-motion";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 const OrderForm = () => {
   const { user } = useAuth();
@@ -65,21 +66,21 @@ const OrderForm = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto relative">
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex justify-between mb-3">
           {[1, 2, 3, 4].map((stepNumber) => (
             <div
               key={stepNumber}
-              className={`relative flex items-center justify-center w-10 h-10 rounded-full text-white font-semibold transition-all duration-300
+              className={`relative flex items-center justify-center w-8 sm:w-10 h-8 sm:h-10 rounded-full text-white font-semibold transition-all duration-300
               ${step >= stepNumber ? "bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg scale-105" : "bg-gray-300 text-gray-500"}
               `}
             >
               {stepNumber}
               {step >= stepNumber && (
                 <motion.span
-                  className="absolute w-14 h-14 bg-blue-500/30 rounded-full -z-10"
+                  className="absolute w-12 sm:w-14 h-12 sm:h-14 bg-blue-500/30 rounded-full -z-10"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1.2, opacity: 0 }}
                   transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
@@ -99,7 +100,7 @@ const OrderForm = () => {
       </div>
 
       {/* Order Steps */}
-      <div className="glass-card p-8 rounded-2xl border border-gray-200/50 shadow-soft">
+      <div className="glass-card p-4 sm:p-8 rounded-2xl border border-gray-200/50 shadow-soft">
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div
@@ -136,44 +137,50 @@ const OrderForm = () => {
               )}
             </motion.div>
           )}
-{step === 4 && (
-  <motion.div
-    key="step4"
-    initial={{ opacity: 0, x: 30 }}
-    animate={{ opacity: 1, x: 0 }}
-    exit={{ opacity: 0, x: -30 }}
-    transition={{ duration: 0.3 }}
-    className="relative z-[100]" // Menjadikan Step4 paling depan
-  >
-    <Step4 orderData={orderData} updateOrderData={updateOrderData} prevStep={prevStep} />
-  </motion.div>
-)}
-
+          {step === 4 && (
+            <motion.div
+              key="step4"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3 }}
+              className="relative z-[100]"
+            >
+              <Step4 orderData={orderData} updateOrderData={updateOrderData} prevStep={prevStep} />
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
-{/* Navigation Buttons */}
-<div className="mt-6 flex justify-between relative z-0">
-  {step > 1 && (
-    <motion.button
-      whileTap={{ scale: 0.9 }}
-      className="btn-secondary relative z-[1]" // Pastikan tombol Kembali tidak lebih tinggi dari Step4
-      onClick={prevStep}
-    >
-      ⬅️ Kembali
-    </motion.button>
-  )}
-  {step < 4 && (
-    <motion.button
-      whileTap={{ scale: 0.9 }}
-      whileHover={{ scale: 1.05 }}
-      className="btn-primary relative z-[1]" // Pastikan tombol Lanjut tidak menutupi Step4
-      onClick={nextStep}
-    >
-      Lanjut ➡️
-    </motion.button>
-  )}
-</div>
+      {/* Fixed Navigation Buttons */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex justify-between items-center z-50">
+        <div className="container mx-auto max-w-4xl flex justify-between">
+          {step > 1 && (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={prevStep}
+              className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all"
+            >
+              <FiArrowLeft className="text-lg sm:text-xl" />
+              <span className="hidden sm:inline">Kembali</span>
+            </motion.button>
+          )}
+          {step < 4 && (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              onClick={nextStep}
+              className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all ml-auto"
+            >
+              <span className="hidden sm:inline">Lanjut</span>
+              <FiArrowRight className="text-lg sm:text-xl" />
+            </motion.button>
+          )}
+        </div>
+      </div>
+
+      {/* Add bottom padding to account for fixed navigation */}
+      <div className="h-20" />
     </div>
   );
 };
