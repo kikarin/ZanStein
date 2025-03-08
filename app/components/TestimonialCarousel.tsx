@@ -28,13 +28,13 @@ interface TestimonialCarouselProps {
 
 const TestimonialCarousel = ({ testimonials, setTestimonials }: TestimonialCarouselProps) => {
   const controls = useAnimation();
-  const [autoScroll, setAutoScroll] = useState(true);
+  const [,setAutoScroll] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
   const itemWidth = 320;
   const gap = 20;
   const itemsPerRow = 2; // 2 testimoni per baris
   const totalColumns = Math.ceil(testimonials.length / itemsPerRow); // Jumlah kolom berdasarkan total testimoni
-  const [offset, setOffset] = useState(0);
+  // const [offset, setOffset] = useState(0);
 
   const { user } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -88,26 +88,26 @@ console.log("Reply berhasil disimpan!");
     }
   };
     
-  // 🔥 Auto-scroll setiap 5 detik (dibatasi agar tidak keluar area)
-  useEffect(() => {
-    if (!autoScroll) return;
+//   // 🔥 Auto-scroll setiap 5 detik (dibatasi agar tidak keluar area)
+//   useEffect(() => {
+//     if (!autoScroll) return;
 
-    const interval = setInterval(() => {
-        setOffset((prev) => {
-            const maxOffset = totalColumns + itemsPerRow; // Batas terakhir sebelum reset
-            const newOffset = prev - 1;
+//     const interval = setInterval(() => {
+//         setOffset((prev) => {
+//             const maxOffset = totalColumns + itemsPerRow; // Batas terakhir sebelum reset
+//             const newOffset = prev - 1;
 
-            return newOffset < -maxOffset ? 0 : newOffset; // Reset jika melewati batas
-        });
+//             return newOffset < -maxOffset ? 0 : newOffset; // Reset jika melewati batas
+//         });
 
-        controls.start({
-            x: offset * (itemWidth * itemsPerRow + gap * itemsPerRow),
-            transition: { type: "spring", stiffness: 50, damping: 20 },
-        });
-    }, 3000);
+//         controls.start({
+//             x: offset * (itemWidth * itemsPerRow + gap * itemsPerRow),
+//             transition: { type: "spring", stiffness: 50, damping: 20 },
+//         });
+//     }, 3000);
 
-    return () => clearInterval(interval);
-}, [autoScroll, offset, controls, itemWidth, itemsPerRow, gap, totalColumns]);
+//     return () => clearInterval(interval);
+// }, [autoScroll, offset, controls, itemWidth, itemsPerRow, gap, totalColumns]);
 
 
 return (

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import {FaInstagram, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp} from "react-icons/fa";
+import { MdWeb } from "react-icons/md";
 import Image from "next/image";
 
 const Footer = () => {
@@ -56,22 +57,22 @@ const Footer = () => {
               <p className="mt-4 text-[var(--text-secondary)]">Tetap terhubung dengan kami melalui media sosial:</p>
               <div className="flex space-x-4 mt-3">
                 <a
-                  href="https://instagram.com/yourusername"
+                  href="https://instagram.com/#"
                   className="hover:text-[var(--accent-hover)] transition duration-300 transform hover:scale-110"
                 >
                   <FaInstagram size={24} />
                 </a>
                 <a
-                  href="https://wa.me/yourwhatsapp"
+                  href="https://wa.me/6285693531495"
                   className="hover:text-[var(--accent-hover)] transition duration-300 transform hover:scale-110"
                 >
                   <FaWhatsapp size={24} />
                 </a>
                 <a
-                  href="mailto:your@email.com"
+                  href="https://porto-zan.vercel.app/"
                   className="hover:text-[var(--accent-hover)] transition duration-300 transform hover:scale-110"
                 >
-                  <FaEnvelope size={24} />
+                  <MdWeb size={24} />
                 </a>
               </div>
             </div>

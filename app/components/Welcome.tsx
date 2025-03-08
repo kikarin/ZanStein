@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Parallax } from "react-scroll-parallax";
 
 const Welcome = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const Welcome = () => {
   return (
     <section className="relative overflow-hidden">
       {/* Container with consistent padding */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-16 pb-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-16 pb-0">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -39,14 +40,18 @@ const Welcome = () => {
         >
           {/* Hero Section */}
           <div className="mb-12 lg:mb-0 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
-            {/* Text Section */}
-            <motion.div variants={itemVariants} className="w-full lg:w-1/2 text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent mb-6">
-                Welcome to ZanStein
-              </h1>
-              <p className="text-lg sm:text-xl lg:text-2xl text-secondary-light mb-8 max-w-xl mx-auto lg:mx-0">
-                Budget-Friendly, Pro-Level Coding.
-              </p>
+           {/* Teks dengan efek Parallax */}
+           <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.5 } } }} className="w-full lg:w-1/2 text-center lg:text-left">
+              <Parallax speed={4}>
+                <h1 className="text-6xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent mb-3">
+                  Welcome to ZanStein Solution
+                </h1>
+              </Parallax>
+              <Parallax speed={4}>
+                <p className="text-xl text-secondary-light mb-8">
+                Top-Tier Quality, Budget Price.
+                </p>
+              </Parallax>
 
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
                 <button
@@ -89,6 +94,7 @@ const Welcome = () => {
             {/* Hero Image */}
             <motion.div variants={itemVariants} className="w-full lg:w-1/2">
               <div className="max-w-md mx-auto lg:max-w-none">
+              <Parallax speed={4}>
                 <Image
                   src="/zans-t.png"
                   alt="TypeScript Logo"
@@ -96,14 +102,17 @@ const Welcome = () => {
                   height={450}
                   className="hover-scale w-full h-auto"
                   priority
-                />
+                  />
+              </Parallax>
               </div>
             </motion.div>
           </div>
 
           {/* Stats Section with consistent spacing */}
-          <div className="mb-10">
-            <StatsSection />
+          <div className="mb-1">
+          <Parallax speed={-12}>
+              <StatsSection />
+            </Parallax>
           </div>
         </motion.div>
       </div>
@@ -120,7 +129,7 @@ export default Welcome;
 const StatsSection = () => {
   const stats = [
     {
-      number: 50,
+      number: 32,
       suffix: "+",
       label: "Proyek Selesai",
     },

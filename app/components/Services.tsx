@@ -1,4 +1,8 @@
+"use client";
+
 import { FaCode, FaMobileAlt, FaPalette, FaServer } from "react-icons/fa";
+import { Parallax } from "react-scroll-parallax";
+
 
 const services = [
   {
@@ -29,12 +33,11 @@ const Services = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-secondary mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
             Layanan Kami
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
         </div>
-
+        <Parallax speed={4}>
         {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {services.map((service, index) => (
@@ -61,7 +64,9 @@ const Services = () => {
               <div className="absolute inset-0 bg-primary opacity-0 hover:opacity-5 rounded-lg transition-opacity duration-300"></div>
             </div>
           ))}
-        </div>
+          </div>
+          </Parallax>
+
       </div>
     </section>
   );

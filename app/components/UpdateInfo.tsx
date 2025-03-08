@@ -1,6 +1,8 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
+import { Parallax } from "react-scroll-parallax";
+
 
 const InfoSection = () => {
   const ref = useRef(null);
@@ -13,56 +15,59 @@ const InfoSection = () => {
 
   const discountUpdates = [
     {
-      startDate: "06 Mar 2025",
-      endDate: "18 Mar 2025",
-      info: "Persentase diskon pada fitur Gacha Voucher berkisar antara 1% hingga 10%.",
-      voucherExpire: "24 Mar 2025",
+      startDate: "10 Mar 2025",
+      endDate: "24 Mar 2025",
+      info: "Persentase Voucher diskon pada fitur Gacha berkisar antara 1% hingga 10%.",
     },
     {
-      startDate: "06 Mar 2025",
+      startDate: "10 Mar 2025",
       endDate: "31 Mar 2025",
       info: "Voucher diskon hanya dapat digunakan satu kali untuk setiap pengguna.",
-      voucherExpire: "24 Mar 2025",
     },
   ];
 
   const generalUpdates = [
     {
-      date: "05 Mar 2025",
-      info: "Dalam rangka menyambut bulan Ramadhan dan peluncuran website ZanStein, kami membagikan Voucher Diskon spesial kepada pengguna.",
+      date: "10 Mar 2025",
+      info: "Dalam rangka menyambut bulan Ramadhan dan peluncuran website, kami membagikan Voucher Diskon spesial kepada pengguna.",
     },
     {
-      date: "05 Mar 2025",
+      date: "10 Mar 2025",
       info: "Voucher diskon dapat diperoleh dengan memberikan testimoni mengenai layanan kami.",
+    },
+    {
+      date: "10 Mar 2025",
+      info: "Login diperlukan untuk menulis dan mengirimkan testimonial",
     },
   ];
 
   const serviceUpdates = [
     {
-      date: "05 Mar 2025",
-      info: "Saat ini, halaman FAQ masih dalam tahap pengembangan. Jika ada pertanyaan, silakan langsung menghubungi Mimin ganteng😘 melalui WhatsApp.",
+      date: "09 Mar 2025",
+      info: "Zanstein kini resmi meluncurkan website. untuk memberikan pengalaman pemesanan layanan yang lebih cepat, mudah, dan praktis.",
     },
     {
-      date: "04 Mar 2025",
-      info: "Zanstein kini resmi meluncurkan website baru untuk pemesanan layanan, memberikan pengalaman yang lebih mudah dan efisien bagi pelanggan.",
+      date: "09 Mar 2025",
+      info: "Saat ini, halaman FAQ masih dalam tahap pengembangan. Jika ada pertanyaan, silakan langsung menghubungi Mimin ganteng😘 melalui WhatsApp.",
     },
   ];
 
   return (
     <section ref={ref} className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
       {/* Animasi Parallax Background */}
+      <Parallax speed={-10}>
       <motion.div
         style={{ y: parallax }}
         className="absolute inset-0 bg-[url('/background.svg')] bg-cover bg-center opacity-10"
       />
-
+  
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary text-center mb-12"
+          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary text-center mb-12"
         >
           Informasi Terbaru
         </motion.h2>
@@ -72,7 +77,8 @@ const InfoSection = () => {
           <InfoCategory title="Diskon & Voucher" updates={discountUpdates} />
           <InfoCategory title="Info Layanan" updates={serviceUpdates} />
         </div>
-      </div>
+        </div>
+        </Parallax>
     </section>
   );
 };
@@ -96,7 +102,6 @@ const InfoCard = ({
   info,
   startDate,
   endDate,
-  voucherExpire,
 }: InfoCardProps) => {
   return (
     <motion.div
@@ -110,9 +115,6 @@ const InfoCard = ({
         {date || `Berlaku: ${startDate} - ${endDate}`}
       </p>
       <p className="text-secondary-light">{info}</p>
-      {voucherExpire && (
-        <p className="text-xs text-red-500 mt-2">Voucher Expired: {voucherExpire}</p>
-      )}
     </motion.div>
   );
 };
@@ -133,7 +135,7 @@ const InfoCategory = ({ title, updates }: InfoCategoryProps) => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="text-xl sm:text-2xl font-semibold text-primary text-center mb-6 sm:mb-8"
+        className="text-xl sm:text-2xl font-semibold text-secondary text-center mb-6 sm:mb-8"
       >
         {title}
       </motion.h3>
@@ -162,8 +164,10 @@ const InfoCategory = ({ title, updates }: InfoCategoryProps) => {
               {/* Card */}
               <div className={`w-full md:w-1/2 ${
                 index % 2 === 0 ? "md:pr-8 lg:pr-12" : "md:pl-8 lg:pl-12"
-              }`}>
-                <InfoCard {...update} />
+                }`}>
+                      <Parallax speed={3}>
+                  <InfoCard {...update} />
+                  </Parallax>
               </div>
             </motion.div>
           ))}

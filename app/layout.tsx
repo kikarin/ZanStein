@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import LoaderWrapper from "./components/LoaderWrapper";
 import { AuthProvider } from "../contexts/AuthContext";
+import ParallaxWrapper from "./components/ParallaxWrapper"; // ✅ Import ParallaxWrapper
 
 export const metadata: Metadata = {
   title: "ZanStein Solution",
@@ -14,10 +15,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <AuthProvider>
       <html lang="id">
         <body>
-          <LoaderWrapper>
-            <Navbar />
-            <main className="max-w-6xl mx-auto relative z-10">{children}</main>
-          </LoaderWrapper>
+          <ParallaxWrapper> {/* ✅ Bungkus dengan ParallaxWrapper */}
+            <LoaderWrapper>
+              <Navbar />
+              <main className="max-w-6xl mx-auto relative z-10">{children}</main>
+            </LoaderWrapper>
+          </ParallaxWrapper>
         </body>
       </html>
     </AuthProvider>
