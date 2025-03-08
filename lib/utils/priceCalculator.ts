@@ -42,12 +42,13 @@ export const PRICE_LIST: PriceList = {
   },
   databases: {
     mysql: 25000,
-    postgresql: 30000,
-    firebase: 35000,
-    supabase: 35000,
-  },
+    mariaDB: 30000,
+    postgresql: 35000,
+    mongodb: 38000,
+    firebase: 40000,
+  },  
   frontends: {
-    vue: 65000,
+    vue: 70000,
     nuxt: 70000,
     svelte: 70000,  // Turun dikit
     vite: 75000,
@@ -62,11 +63,9 @@ export const PRICE_LIST: PriceList = {
     django: 92000,  // Naik sedikit karena skalabilitas tinggi
     laravel: 90000,
     golang: 95000,  // Naik sedikit karena performa tinggi
-    spring: 130000  // Naik karena lebih kompleks dan enterprise-level
   },
   apis: {
-    rest: 25000,
-    graphql: 42000,  // Naik sedikit karena lebih kompleks
+    apiDevelopment: 35000,
   },  
   uiFrameworks: {
     bootstrap: 25000,
