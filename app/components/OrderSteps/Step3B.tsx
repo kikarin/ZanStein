@@ -181,7 +181,7 @@ if (orderData.uiFramework) {
   };
 
   return (
-    <div className="space-y-6 overflow-x-hidden">
+    <div className="space-y-6 overflow-x-hidden pb-32">
       <h2 className="text-xl sm:text-2xl font-bold text-primary text-center">
         Teknologi & UI Framework
       </h2>
