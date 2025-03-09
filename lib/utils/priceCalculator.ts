@@ -14,7 +14,7 @@ export const PRICE_LIST: PriceList = {
     laravel: 125000,  // Naik biar setara dengan Django
     django: 125000,
     rails: 125000,  // Turun sedikit karena lebih niche
-    nextjs: 130000,
+    nextjs: 145000,
     'flutter': 280000
   },
   flutterUIFrameworks: {
@@ -41,11 +41,11 @@ export const PRICE_LIST: PriceList = {
     "flutter-adaptive-theme": 50000,
   },
   databases: {
-    mysql: 25000,
-    mariaDB: 30000,
-    postgresql: 35000,
-    mongodb: 38000,
-    firebase: 40000,
+    mysql: 30000,
+    mariaDB: 33000,
+    postgresql: 40000,
+    mongodb: 50000,
+    firebase: 55000,
   },  
   frontends: {
     vue: 70000,
@@ -55,17 +55,17 @@ export const PRICE_LIST: PriceList = {
     react: 80000,
     angular: 85000,  // Naik dikit karena kompleks
     nextjs: 90000,  // Naik dikit karena SSR
-    'flutter': 220000
+    'flutter': 250000
   },
   backends: {
-    express: 75000,
+    express: 79000,
     nestjs: 88000,  // Naik sedikit karena lebih enterprise-ready
     django: 92000,  // Naik sedikit karena skalabilitas tinggi
     laravel: 90000,
     golang: 95000,  // Naik sedikit karena performa tinggi
   },
   apis: {
-    apiDevelopment: 35000,
+    apiDevelopment: 40000,
   },  
   uiFrameworks: {
     bootstrap: 25000,

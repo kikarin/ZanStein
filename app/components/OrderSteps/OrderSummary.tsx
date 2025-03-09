@@ -233,11 +233,8 @@ const OrderSummary = ({
               <div className="text-right">
                 {orderData.discount ? (
                   <>
-                    <p className="text-sm line-through text-gray-500">
-                      Rp {orderData.totalPrice?.toLocaleString("id-ID")}
-                    </p>
                     <p className="text-lg sm:text-xl font-bold text-primary">
-                      Rp {(orderData.totalPrice! * (1 - orderData.discount/100)).toLocaleString("id-ID")}
+                      Rp {(orderData.totalPrice!).toLocaleString("id-ID")}
                     </p>
                     <p className="text-xs sm:text-sm text-green-500">
                       Hemat {orderData.discount}%
