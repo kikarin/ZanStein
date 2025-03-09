@@ -500,7 +500,7 @@ if (orderData.uiFramework) {
 
       {/* Deadline Section */}
       <div className="space-y-3">
-        <h3 className="text-lg font-medium text-gray-800">6️⃣ Custom Warna UI</h3>
+        <h3 className="text-lg font-medium text-gray-800">6️⃣ Custom Warna UI (Opsional)</h3>
         <div className="space-y-4">
           <input
             type="number"
@@ -622,7 +622,7 @@ if (orderData.uiFramework) {
 
       {/* Notes Section */}
       <div className="mt-8 space-y-4">
-        <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-3">📝 Catatan Tambahan</h3>
+        <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-3">📝 Catatan Tambahan (Opsional)</h3>
         <div className="bg-white/50 backdrop-blur-sm rounded-lg p-4 shadow-sm">
           <textarea
             value={orderData.notes || ""}

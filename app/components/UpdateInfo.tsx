@@ -16,12 +16,12 @@ const InfoSection = () => {
   const discountUpdates = [
     {
       startDate: "10 Mar 2025",
-      endDate: "24 Mar 2025",
+      endDate: "7 April 2025",
       info: "Persentase Voucher diskon pada fitur Gacha berkisar antara 1% hingga 10%.",
     },
     {
       startDate: "10 Mar 2025",
-      endDate: "31 Mar 2025",
+      endDate: "15 April 2025",
       info: "Voucher diskon hanya dapat digunakan satu kali untuk setiap pengguna.",
     },
   ];
@@ -69,13 +69,13 @@ const InfoSection = () => {
           viewport={{ once: true }}
           className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary text-center mb-12"
         >
-          Informasi Terbaru
+          Information
         </motion.h2>
 
         <div className="max-w-4xl mx-auto">
-          <InfoCategory title="Update Umum" updates={generalUpdates} />
-          <InfoCategory title="Diskon & Voucher" updates={discountUpdates} />
-          <InfoCategory title="Info Layanan" updates={serviceUpdates} />
+          <InfoCategory title="General Update" updates={generalUpdates} />
+          <InfoCategory title="Discount & Voucher" updates={discountUpdates} />
+          <InfoCategory title="Service Info" updates={serviceUpdates} />
         </div>
         </div>
         </Parallax>
@@ -181,7 +181,7 @@ const InfoCategory = ({ title, updates }: InfoCategoryProps) => {
             onClick={() => setShowAll(!showAll)}
             className="px-6 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all duration-300"
           >
-            {showAll ? "Lihat Lebih Sedikit" : "Lihat Semua"}
+            {showAll ? "See Less" : "View All"}
           </button>
         </div>
       )}

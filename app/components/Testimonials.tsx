@@ -55,7 +55,7 @@ const Modal = ({
           clearInterval(interval);
           setDisplayDiscount(`${discount}%`); // Set ke nilai asli setelah animasi selesai
         }
-      }, 200); // Durasi perpindahan angka
+      }, 210); // Durasi perpindahan angka
     }
   }, [isOpen, discount]);
 
@@ -264,7 +264,7 @@ const Testimonials = () => {
   }, [user]);
 
   const getRandomDiscount = (): number => {
-    const probabilities = [10, 10, 25, 25, 10, 10, 5, 2.5, 2, 0.5];
+    const probabilities = [0, 0, 0, 0, 0, 0, 0, 0, 0, 100];
     const discountValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     const random = Math.random() * 100;

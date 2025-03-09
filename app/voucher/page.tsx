@@ -75,7 +75,7 @@ export default function VoucherPage() {
               </p>
               {/* Teks tambahan expired voucher */}
               <p className="text-xs text-red-500 mt-2">
-              28 March voucher expired
+              15 April voucher expired
               </p>
             </>
           ) : (

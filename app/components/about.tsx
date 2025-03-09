@@ -13,22 +13,22 @@ const fadeInUp = {
 const features = [
   {
     icon: <FaLightbulb className="text-primary text-4xl" />,
-    title: "Kreatif",
+    title: "Creative",
     description: "Solusi inovatif dalam setiap proyek yang dikerjakan.",
   },
   {
     icon: <FaRocket className="text-primary text-4xl" />,
-    title: "Cepat & Efisien",
+    title: "Fast & Efficient",
     description: "Pengerjaan tepat waktu dengan hasil berkualitas tinggi.",
   },
   {
     icon: <FaUsers className="text-primary text-4xl" />,
-    title: "Kolaboratif",
+    title: "Collaborative",
     description: "Komunikasi yang baik untuk memastikan kebutuhan terpenuhi.",
   },
   {
     icon: <FaCheckCircle className="text-primary text-4xl" />,
-    title: "Terpercaya",
+    title: "Trusted",
     description: "Memberikan hasil yang sesuai dengan ekspektasi klien.",
   },
 ];
@@ -52,7 +52,7 @@ const AboutUs = () => {
             <motion.div variants={fadeInUp} className="space-y-6">
               <Parallax speed={2}>
                 <h2 className="text-4xl font-bold">
-                  <span className="text-primary">Tentang Zanstein</span>
+                  <span className="text-primary">About Us</span>
                 </h2>
               </Parallax>
               <Parallax speed={6}>
@@ -153,7 +153,7 @@ const AboutUs = () => {
             className="text-3xl font-bold text-center mb-12"
           >
             <Parallax speed={2}>
-              <span className="text-primary">Keunggulan Kami</span>
+              <span className="text-primary">Our Advantages</span>
             </Parallax>
           </motion.h3>
 

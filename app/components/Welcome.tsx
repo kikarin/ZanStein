@@ -58,7 +58,7 @@ const Welcome = () => {
                   onClick={() => router.push("/order")}
                   className="btn-primary flex items-center justify-center gap-2 group w-full sm:w-auto"
                 >
-                  <span>Mulai Order</span>
+                  <span>Start Order</span>
                   <svg
                     className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
                     fill="none"
@@ -129,19 +129,19 @@ export default Welcome;
 const StatsSection = () => {
   const stats = [
     {
-      number: 32,
+      number: 24,
       suffix: "+",
-      label: "Proyek Selesai",
+      label: "Project Completed",
     },
     {
       number: 100,
       suffix: "%",
-      label: "Kepuasan Klien",
+      label: "Client Satisfaction",
     },
     {
       number: 24,
       suffix: "/7",
-      label: "Dukungan Teknis",
+      label: "Technical Support",
     },
   ];
   return (

@@ -1,9 +1,28 @@
+'use client';
+
 import Link from "next/link";
-import { FaInstagram, FaWhatsapp} from "react-icons/fa";
+import { FaInstagram, FaWhatsapp, FaArrowUp} from "react-icons/fa";
 import { MdWeb } from "react-icons/md";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
 
 const Footer = () => {
+  const [showButton, setShowButton] = useState(false);
+
+  // Cek scroll position buat munculin tombol "Back to Top"
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
     <footer className="relative text-[var(--text-secondary)] mt-20">
       {/* Garis Dekoratif Simpel */}
@@ -92,6 +111,18 @@ const Footer = () => {
               </Link>
             </div>
           </div>
+
+                  {/* Tombol Back to Top */}
+        {showButton && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-6 right-6 p-3 bg-primary dark:bg-gray-700 text-white rounded-full shadow-lg 
+            hover:bg-gray-600 dark:hover:bg-gray-500 hover:scale-110 transition-all duration-300 ease-in-out opacity-80 
+            hover:opacity-100 flex items-center justify-center"
+          >
+            <FaArrowUp size={20} />
+          </button>
+        )}
         </div>
       </div>
     </footer>
