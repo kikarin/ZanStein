@@ -97,7 +97,7 @@ const Navbar = () => {
               </motion.button>
             ))}
 
-            {/* Tambahkan Icon A HREF ke Portfolio */}
+            {/* Tambahkan Icon A HREF ke Portfolio
             <a
               href="https://porto-zan.vercel.app/"
               target="_blank"
@@ -105,7 +105,7 @@ const Navbar = () => {
               className="text-secondary hover:text-accent transition duration-300 transform hover:scale-110"
             >
               <MdWeb size={24} />
-            </a>
+            </a> */}
 
             {/* User Profile Section */}
             {user ? (
@@ -211,7 +211,7 @@ const Navbar = () => {
                 </motion.button>
               ))}
 
-              {/* Tambahkan Icon A HREF ke Portfolio */}
+              {/* Tambahkan Icon A HREF ke Portfolio
               <div className="flex justify-start mt-4 px-4">
                 <a
                   href="https://porto-zan.vercel.app/"
@@ -221,7 +221,7 @@ const Navbar = () => {
                 >
                   <MdWeb size={24} />
                 </a>
-              </div>
+              </div> */}
 
               {/* User Profile Section in Mobile */}
               <div className="mt-4 border-t border-gray-200 pt-2">
