@@ -48,7 +48,7 @@ const InfoSection = () => {
     },
     {
       date: "09 Mar 2025",
-      info: "Saat ini, halaman FAQ masih dalam tahap pengembangan. Jika ada pertanyaan, silakan langsung menghubungi Mimin ganteng😘 melalui WhatsApp.",
+      info: "Saat ini, halaman FAQ masih dalam tahap pengembangan. Jika ada pertanyaan, silahkan langsung menghubungi Admin melalui WhatsApp.",
     },
   ];
 
