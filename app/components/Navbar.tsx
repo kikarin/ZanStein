@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { MdWeb } from "react-icons/md";
 import {
   FiMenu,
   FiX,
