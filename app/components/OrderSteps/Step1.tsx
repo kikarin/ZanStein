@@ -2,7 +2,10 @@
 
 import { OrderData } from "../../../lib/types/order";
 import { motion } from "framer-motion";
-import { FiAward, FiBriefcase } from "react-icons/fi";
+import {
+  FiAward, FiBriefcase, FiBook, FiSearch, FiEdit, FiTarget
+  
+} from "react-icons/fi";
 
 interface Step1Props {
   orderData: OrderData;
@@ -11,6 +14,12 @@ interface Step1Props {
 }
 
 const projectTypes = [
+  {
+    id: "A",
+    title: "Skripsi / Tugas Akhir",
+    icon: <FiBook className="text-2xl" />,
+    description: "Proyek untuk skripsi atau tugas akhir di perguruan tinggi.",
+  },
   {
     id: "B",
     title: "Ujikom (Ujian Kompetensi)",
@@ -22,6 +31,24 @@ const projectTypes = [
     title: "Sidang PKL",
     icon: <FiBriefcase className="text-2xl" />,
     description: "Proyek untuk presentasi sidang Praktik Kerja Lapangan.",
+  },
+  {
+    id: "D",
+    title: "Riset / Penelitian",
+    icon: <FiSearch className="text-2xl" />,
+    description: "Website atau sistem yang digunakan untuk mendukung penelitian akademik atau ilmiah.",
+  },
+  {
+    id: "E",
+    title: "Tugas Sekolah / Kuliah",
+    icon: <FiEdit className="text-2xl" />,
+    description: "Proyek untuk tugas mata kuliah atau tugas besar di sekolah/universitas.",
+  },
+  {
+    id: "F",
+    title: "Olimpiade / Kompetisi",
+    icon: <FiTarget className="text-2xl" />,
+    description: "Proyek khusus untuk perlombaan atau olimpiade IT & coding.",
   },
 ];
 

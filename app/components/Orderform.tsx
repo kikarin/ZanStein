@@ -24,13 +24,13 @@ const OrderForm = () => {
     applicationType: "",
     customerName: user?.displayName || "",
     whatsappNumber: "",
-    paymentMethod: undefined
+    paymentMethod: undefined,
   });
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       if (!user) return;
-      
+
       try {
         const discountDoc = await getDoc(doc(db, "discounts", user.uid));
         const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -38,11 +38,11 @@ const OrderForm = () => {
         if (discountDoc.exists() && userDoc.exists()) {
           const hasUsed = userDoc.data().hasUsedDiscount || false;
           setHasUsedDiscount(hasUsed);
-          
+
           if (!hasUsed) {
-            setOrderData(prev => ({
+            setOrderData((prev) => ({
               ...prev,
-              discount: discountDoc.data().discountPercentage
+              discount: discountDoc.data().discountPercentage,
             }));
           }
         }
@@ -54,11 +54,11 @@ const OrderForm = () => {
     fetchUserInfo();
   }, [user]);
 
-  const nextStep = () => setStep(prev => prev + 1);
-  const prevStep = () => setStep(prev => prev - 1);
+  const nextStep = () => setStep((prev) => prev + 1);
+  const prevStep = () => setStep((prev) => prev - 1);
 
   const updateOrderData = (newData: Partial<OrderData>) => {
-    setOrderData(prev => {
+    setOrderData((prev) => {
       const updated = { ...prev, ...newData };
       const totalPrice = calculateOrderPrice(updated);
       return { ...updated, totalPrice };
@@ -74,7 +74,11 @@ const OrderForm = () => {
             <div
               key={stepNumber}
               className={`relative flex items-center justify-center w-8 sm:w-10 h-8 sm:h-10 rounded-full text-white font-semibold transition-all duration-300
-              ${step >= stepNumber ? "bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg scale-105" : "bg-gray-300 text-gray-500"}
+              ${
+                step >= stepNumber
+                  ? "bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg scale-105"
+                  : "bg-gray-300 text-gray-500"
+              }
               `}
             >
               {stepNumber}
@@ -83,7 +87,11 @@ const OrderForm = () => {
                   className="absolute w-12 sm:w-14 h-12 sm:h-14 bg-blue-500/30 rounded-full -z-10"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1.2, opacity: 0 }}
-                  transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  }}
                 />
               )}
             </div>
@@ -110,7 +118,11 @@ const OrderForm = () => {
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.3 }}
             >
-              <Step1 orderData={orderData} updateOrderData={updateOrderData} nextStep={nextStep} />
+              <Step1
+                orderData={orderData}
+                updateOrderData={updateOrderData}
+                nextStep={nextStep}
+              />
             </motion.div>
           )}
           {step === 2 && (
@@ -121,7 +133,12 @@ const OrderForm = () => {
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.3 }}
             >
-              <Step2 orderData={orderData} updateOrderData={updateOrderData} nextStep={nextStep} prevStep={prevStep} />
+              <Step2
+                orderData={orderData}
+                updateOrderData={updateOrderData}
+                nextStep={nextStep}
+                prevStep={prevStep}
+              />
             </motion.div>
           )}
           {step === 3 && (
@@ -132,11 +149,19 @@ const OrderForm = () => {
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.3 }}
             >
-              {(orderData.projectType === "B" || orderData.projectType === "C") && (
-                <Step3B orderData={orderData} updateOrderData={updateOrderData} nextStep={nextStep} prevStep={prevStep} />
+              {["A", "B", "C", "D", "E", "F"].includes(
+                orderData.projectType
+              ) && (
+                <Step3B
+                  orderData={orderData}
+                  updateOrderData={updateOrderData}
+                  nextStep={nextStep}
+                  prevStep={prevStep}
+                />
               )}
             </motion.div>
           )}
+
           {step === 4 && (
             <motion.div
               key="step4"
@@ -146,7 +171,11 @@ const OrderForm = () => {
               transition={{ duration: 0.3 }}
               className="relative z-[100]"
             >
-              <Step4 orderData={orderData} updateOrderData={updateOrderData} prevStep={prevStep} />
+              <Step4
+                orderData={orderData}
+                updateOrderData={updateOrderData}
+                prevStep={prevStep}
+              />
             </motion.div>
           )}
         </AnimatePresence>
