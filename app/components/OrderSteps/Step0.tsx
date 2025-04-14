@@ -8,7 +8,7 @@ interface Step0Props {
   goToStep1B: () => void;
 }
 
-const Step0 = ({ nextStep, goToStep1B }: Step0Props) => {
+const Step0 = ({ nextStep}: Step0Props) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
