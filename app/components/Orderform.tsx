@@ -141,7 +141,7 @@ const OrderForm = () => {
               />
             </motion.div>
           )}
-          {step === 1.5 && (
+          {/* {step === 1.5 && (
             <motion.div
               key="step1b"
               initial={{ opacity: 0, x: 30 }}
@@ -156,7 +156,7 @@ const OrderForm = () => {
                 prevStep={prevStep}
               />
             </motion.div>
-          )}
+          )} */}
           {step === 2 && (
             <motion.div
               key="step2"
