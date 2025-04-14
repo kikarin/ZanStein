@@ -8,7 +8,6 @@ import { OrderData } from "../../lib/types/order";
 import { calculateOrderPrice } from "../../lib/utils/priceCalculator";
 import Step0 from "./OrderSteps/Step0";
 import Step1 from "./OrderSteps/Step1";
-import Step1B from "./OrderSteps/Step1B";
 import Step2 from "./OrderSteps/Step2";
 import Step3B from "./OrderSteps/Step3B";
 import Step4 from "./OrderSteps/Step4";
