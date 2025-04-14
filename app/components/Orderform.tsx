@@ -6,7 +6,9 @@ import { db } from "../../lib/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { OrderData } from "../../lib/types/order";
 import { calculateOrderPrice } from "../../lib/utils/priceCalculator";
+import Step0 from "./OrderSteps/Step0";
 import Step1 from "./OrderSteps/Step1";
+import Step1B from "./OrderSteps/Step1B";
 import Step2 from "./OrderSteps/Step2";
 import Step3B from "./OrderSteps/Step3B";
 import Step4 from "./OrderSteps/Step4";
@@ -15,7 +17,7 @@ import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 const OrderForm = () => {
   const { user } = useAuth();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [, setHasUsedDiscount] = useState(false);
   const [orderData, setOrderData] = useState<OrderData>({
     projectType: "",
@@ -110,6 +112,20 @@ const OrderForm = () => {
       {/* Order Steps */}
       <div className="glass-card p-4 sm:p-8 rounded-2xl border border-gray-200/50 shadow-soft">
         <AnimatePresence mode="wait">
+          {step === 0 && (
+            <motion.div
+              key="step0"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Step0
+                nextStep={() => setStep(1)}
+                goToStep1B={() => setStep(1)}
+              />
+            </motion.div>
+          )}
           {step === 1 && (
             <motion.div
               key="step1"
@@ -122,6 +138,23 @@ const OrderForm = () => {
                 orderData={orderData}
                 updateOrderData={updateOrderData}
                 nextStep={nextStep}
+                prevStep={prevStep}
+              />
+            </motion.div>
+          )}
+          {step === 1.5 && (
+            <motion.div
+              key="step1b"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Step1B
+                orderData={orderData}
+                updateOrderData={updateOrderData}
+                nextStep={nextStep}
+                prevStep={prevStep}
               />
             </motion.div>
           )}
@@ -149,9 +182,14 @@ const OrderForm = () => {
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.3 }}
             >
-              {["A", "B", "C", "D", "E", "F"].includes(
-                orderData.projectType
-              ) && (
+              {[
+                "Skripsi",
+                "Ujikom",
+                "Sidang PKL",
+                "Riset",
+                "Tugas Harian",
+                "Kompetisi",
+              ].includes(orderData.projectType) && (
                 <Step3B
                   orderData={orderData}
                   updateOrderData={updateOrderData}
@@ -184,7 +222,7 @@ const OrderForm = () => {
       {/* Fixed Navigation Buttons */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex justify-between items-center z-50">
         <div className="container mx-auto max-w-4xl flex justify-between">
-          {step > 1 && (
+          {step > 0 && (
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={prevStep}

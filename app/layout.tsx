@@ -41,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <AuthProvider>
       <html lang="id">
         <body>
-          <ParallaxWrapper> {/* ✅ Bungkus dengan ParallaxWrapper */}
+          <ParallaxWrapper> 
             <LoaderWrapper>
               <Navbar />
               <main className="max-w-6xl mx-auto relative z-10">{children}</main>

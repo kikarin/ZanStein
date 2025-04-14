@@ -41,7 +41,7 @@ const Step2 = ({ orderData, updateOrderData, }: Step2Props) => {
       className="space-y-8"
     >
       <div className="text-center">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
           Detail Proyek
         </h2>
         <p className="text-gray-600 mt-2">Tentukan platform dan jenis aplikasi</p>

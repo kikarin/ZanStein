@@ -14,7 +14,8 @@ export const PRICE_LIST: PriceList = {
     laravel: 125000,  // Naik biar setara dengan Django
     django: 125000,
     rails: 125000,  // Turun sedikit karena lebih niche
-    nextjs: 145000,
+    nextjs: 190000,
+    "nextjs & build vercel": 360000,
     'flutter': 280000
   },
   flutterUIFrameworks: {

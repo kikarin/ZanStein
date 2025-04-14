@@ -287,7 +287,7 @@ if (orderData.uiFramework) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-primary text-center">
+      <h2 className="text-3xl font-bold text-primary text-center">
         Finalisasi Order
       </h2>
 

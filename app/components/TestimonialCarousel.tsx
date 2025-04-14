@@ -125,7 +125,7 @@ const TestimonialCarousel = ({
         className="flex flex-nowrap gap-6 cursor-grab"
         drag="x"
         dragConstraints={{
-          left: -itemsPerRow * itemWidth + gap * (itemsPerRow - 1),
+          left: -itemsPerRow * itemWidth + gap * (itemsPerRow - 35),
           right: 0,
         }}
         onDragStart={() => setAutoScroll(false)}

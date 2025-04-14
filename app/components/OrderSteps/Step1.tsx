@@ -11,41 +11,42 @@ interface Step1Props {
   orderData: OrderData;
   updateOrderData: (data: Partial<OrderData>) => void;
   nextStep: () => void;
+  prevStep: () => void;
 }
 
 const projectTypes = [
   {
-    id: "A",
+    id: "Skripsi",
     title: "Skripsi / Tugas Akhir",
     icon: <FiBook className="text-2xl" />,
     description: "Proyek untuk skripsi atau tugas akhir di perguruan tinggi.",
   },
   {
-    id: "B",
+    id: "Ujikom",
     title: "Ujikom (Ujian Kompetensi)",
     icon: <FiAward className="text-2xl" />,
     description: "Proyek untuk ujian kompetensi sekolah atau institusi pendidikan.",
   },
   {
-    id: "C",
+    id: "Sidang PKL",
     title: "Sidang PKL",
     icon: <FiBriefcase className="text-2xl" />,
     description: "Proyek untuk presentasi sidang Praktik Kerja Lapangan.",
   },
   {
-    id: "D",
+    id: "Riset",
     title: "Riset / Penelitian",
     icon: <FiSearch className="text-2xl" />,
     description: "Website atau sistem yang digunakan untuk mendukung penelitian akademik atau ilmiah.",
   },
   {
-    id: "E",
+    id: "Tugas Harian",
     title: "Tugas Sekolah / Kuliah",
     icon: <FiEdit className="text-2xl" />,
     description: "Proyek untuk tugas mata kuliah atau tugas besar di sekolah/universitas.",
   },
   {
-    id: "F",
+    id: "Kompetisi",
     title: "Olimpiade / Kompetisi",
     icon: <FiTarget className="text-2xl" />,
     description: "Proyek khusus untuk perlombaan atau olimpiade IT & coding.",
@@ -53,10 +54,11 @@ const projectTypes = [
 ];
 
 const Step1 = ({ orderData, updateOrderData, nextStep }: Step1Props) => {
-  const handleSelect = (value: "B" | "C") => {
+  const handleSelect = (value: string) => {
     updateOrderData({ projectType: value });
     nextStep();
   };
+  
 
   return (
     <motion.div
@@ -77,7 +79,7 @@ const Step1 = ({ orderData, updateOrderData, nextStep }: Step1Props) => {
         {projectTypes.map((type) => (
           <motion.button
             key={type.id}
-            onClick={() => handleSelect(type.id as "B" | "C")}
+            onClick={() => handleSelect(type.id)}
             className={`w-full p-5 rounded-lg glass-card transition-all ${
               orderData.projectType === type.id
                 ? "border-2 border-accent bg-accent/10 shadow-md"
